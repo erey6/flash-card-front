@@ -1,15 +1,19 @@
 import './App.css';
+import { useState } from 'react';
+import Header from './components/header.js';
 
 const App = () => {
-  
-  
+  const [loggedIn, setLogin] = useState(false)
+
+  const handleLogin = () => {
+    setLogin(!loggedIn)
+  }
 
   return (
-    <div>
-      <h1>Hello, world!</h1>
-    <h3>Let the final project begin</h3>
+    <>
+      <Header loggedIn={loggedIn} handleLogin={handleLogin} />
 
-    </div>
+    </>
 
   )
 }
