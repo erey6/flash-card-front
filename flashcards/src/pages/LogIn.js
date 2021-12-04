@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router';
 import AlreadyUser from '../components/AlreadyUser';
 import { SignInWithEP } from '../Firebase/firebase';
 
@@ -10,11 +11,13 @@ const LogIn = (props) => {
     const handleChange= (event) => {
         setAUser({...aUser, [event.target.name]: event.target.value})
     }
+
+    const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
         const {email, password} = aUser
-        console.log(email, password)
         SignInWithEP(email, password)
+        navigate("/home")
     }
     
     return (

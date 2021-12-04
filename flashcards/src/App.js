@@ -8,7 +8,6 @@ import Home from './pages/Home';
 import DeckBuilder from './pages/DeckBuilder';
 import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
-import AuthContextProvider from './contexts/AuthContext';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
@@ -21,7 +20,7 @@ const App = () => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
       if (user) {
-          const uid = user.uid;
+          // const uid = user.uid;
           setCurrentUser(user)
           setLogin(true);
       } else {
@@ -54,7 +53,6 @@ const App = () => {
     <>
       <Header loggedIn={loggedIn} handleLogin={handleLogin} handleSignOut={handleSignOut} />
       <main>
-        <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Welcome loggedIn={loggedIn} handleLogin={handleLogin} />} />
           <Route path="/signup" element={<SignUp loggedIn={loggedIn} handleLogin={handleLogin}  />} />
@@ -77,7 +75,6 @@ const App = () => {
             handleSignOut={handleSignOut}/>
             }/>
         </Routes>
-        </AuthContextProvider>
       </main>
 
 

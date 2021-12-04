@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import axios from 'axios'
 
 
 
@@ -18,41 +19,90 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 
+
+
+
+//function checks if user is in db, if not adds them
+const compareUsers = (fbId, dbData) => {
+    const foundUser = dbData.find(({ firebaseID }) => firebaseID === fbId)
+    if (foundUser === undefined) {
+        return false
+    } else {
+        return true
+    }
+}
+
+const addUserToDb = (user) => {
+    const newUser = {"Name": user.email, "FirebaseID": user.uid}
+    axios
+    .post('https://flashcard6.azurewebsites.net/api/Users',
+    newUser)
+    .then((response) => {
+    //   console.log(response)
+      console.log("user added")
+    })
+}
+//function gets users from DB
+const getDbUsers = (user) => {
+    console.log('here')
+    axios
+        .get('https://flashcard6.azurewebsites.net/api/Users')
+        .then(
+            (response) => {
+                // console.log('db data', response.data);
+                const userCheck = compareUsers(user.uid, response.data);
+                if (userCheck === false) {
+                    addUserToDb(user)
+                }
+            },
+            (err) => console.error(err)
+        )
+        .catch((error) => console.error(error))
+    console.log('done')
+}
+
+
 const SignInWithGoogle = () => {
     const google_provider = new GoogleAuthProvider();
     signInWithPopup(auth, google_provider)
         .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
+            // const credential = GoogleAuthProvider.credentialFromResult(result);
             // const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
             //This is the firebase id
-            const userId = user.uid
-            console.log('user id', userId);
+            // const userId = user.uid
+            // console.log('user id', userId);
+            getDbUsers(user)
             // ...
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
+            console.log(errorCode)
             const errorMessage = error.message;
+            console.log(errorMessage)
             // The email of the user's account used.
-            const email = error.email;
+            // const email = error.email;
             // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
+            // const credential = GoogleAuthProvider.credentialFromError(error);
             // ...
         });
 
 }
 
 const CreateWithEmail = (email, password) => {
-    
+
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
-            const user = userCredential.user;          
+            const user = userCredential.user;
+            addUserToDb(user)
+
             // ...
         })
         .catch((error) => {
             const errorCode = error.code;
+            console.log(errorCode)
             const errorMessage = error.message;
             console.log(errorMessage)
             // ..
@@ -62,16 +112,18 @@ const CreateWithEmail = (email, password) => {
 
 const SignInWithEP = (email, password) => {
     signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log('test', user)
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+           
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            console.log(errorCode)
+            const errorMessage = error.message;
+            console.log(errorMessage)
+        });
 }
 
 
