@@ -2,6 +2,9 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
 
 
+
+
+
 // // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -15,16 +18,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 
-const SignInWithFirebase = () => {
+const SignInWithGoogle = () => {
     const google_provider = new GoogleAuthProvider();
     signInWithPopup(auth, google_provider)
         .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
+            // const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
-            console.log('user id', user.id);
-            console.log('user', user)
+            //This is the firebase id
+            const userId = user.uid
+            console.log('user id', userId);
             // ...
         }).catch((error) => {
             // Handle Errors here.
@@ -39,17 +43,18 @@ const SignInWithFirebase = () => {
 
 }
 
-const SignInWithEmail = (email, password) => {
-
+const CreateWithEmail = (email, password) => {
+    
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
-            const user = userCredential.user;
+            const user = userCredential.user;          
             // ...
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            console.log(errorMessage)
             // ..
         });
 
@@ -57,15 +62,16 @@ const SignInWithEmail = (email, password) => {
 
 const SignOutUser = () => {
     signOut(auth).then(() => {
+        console.log('sign out success');
         // Sign-out successful.
     }).catch((error) => {
-        // An error happened.
+        console.log(error);
     });
 }
 
 export {
-    SignInWithFirebase,
-    SignInWithEmail,
+    SignInWithGoogle,
+    CreateWithEmail,
     SignOutUser
 }
 

@@ -6,7 +6,7 @@ const Home = (props) => {
 
     useEffect(() => {
         if (!props.loggedIn) {
-            navigate("/welcome")
+            navigate("/")
         }
     }
         , [props.loggedIn, navigate])
