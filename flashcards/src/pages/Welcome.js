@@ -15,7 +15,9 @@ const Welcome = (props) => {
 
     return (
         <div>
-            <button onClick={props.handleLogin}>Log in</button>
+            <Link to={"/login"}>
+            <button>Log in</button>
+            </Link>
             <Link to={"/signup"}>
                 <button>Sign up</button>
             </Link>

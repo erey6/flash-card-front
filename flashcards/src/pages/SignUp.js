@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { SignInWithGoogle, CreateWithEmail } from '../Firebase/firebase';
+import { CreateWithEmail } from '../Firebase/firebase';
 
 const SignUp = (props) => {
     let emptyUser = {email: '', password:''}

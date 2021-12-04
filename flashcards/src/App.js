@@ -7,20 +7,22 @@ import Welcome from './pages/Welcome';
 import Home from './pages/Home';
 import DeckBuilder from './pages/DeckBuilder';
 import SignUp from './pages/SignUp';
+import LogIn from './pages/LogIn';
 import AuthContextProvider from './contexts/AuthContext';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
+
 const App = () => {
   const [loggedIn, setLogin] = useState(false)
+  const [currentUser, setCurrentUser] = useState()
   const navigate = useNavigate()
 
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
       if (user) {
           const uid = user.uid;
-          console.log("appjs", uid);
-          console.log("appjs", uid);
+          setCurrentUser(user)
           setLogin(true);
       } else {
           setLogin(false)
@@ -67,6 +69,13 @@ const App = () => {
               <DeckBuilder />
             </RequireAuth>
           } />
+          <Route path="/login" element={
+          <LogIn 
+            loggedIn={loggedIn}  
+            currentUser = {currentUser} 
+            handleLogin={handleLogin} 
+            handleSignOut={handleSignOut}/>
+            }/>
         </Routes>
         </AuthContextProvider>
       </main>

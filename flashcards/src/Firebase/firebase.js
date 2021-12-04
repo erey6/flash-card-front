@@ -1,11 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 
 
 
-// // Your web app's Firebase configuration
+// Web app's Firebase configuration
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -60,6 +60,21 @@ const CreateWithEmail = (email, password) => {
 
 }
 
+const SignInWithEP = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log('test', user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+}
+
+
 const SignOutUser = () => {
     signOut(auth).then(() => {
         console.log('sign out success');
@@ -70,6 +85,7 @@ const SignOutUser = () => {
 }
 
 export {
+    SignInWithEP,
     SignInWithGoogle,
     CreateWithEmail,
     SignOutUser
