@@ -1,40 +1,24 @@
-// import { SignOutUser } from '../Firebase/firebase'
 import { useNavigate, Link } from 'react-router-dom'
 
-// import { useState } from 'react';
-
 const Header = (props) => {
-    // const [loggedIn, setLoggedIn] = useState(false)
-    // const navigate = useNavigate()
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => {
-    //     if (user) {
-    //         const uid = user.uid;
-    //         console.log("fromheader", uid);
-    //         setLoggedIn(true);
-    //     } else {
-    //         setLoggedIn(false)
-    //     }
-    // });
+
 
 
     return (
-        <>
-            <div className="nav">
-                <ul>
-                <Link to={"/home"}><li>Home</li></Link>
-                    <li>Profile</li>
-                </ul>
-                <h1> Quizzr</h1>
+        <nav className="mt-4 flex justify-left h-16 ">
+            <h1 className="mt-2"> Quizzr</h1>
+            <Link to={"/home"} className='pl-6 mt-2'>Home</Link>
+            <Link to={"/home"} className='pl-6 mt-2'>Profile</Link>
 
-                {props.loggedIn && <button onClick={
-                    props.handleSignOut}>
-                    Log out
-                </button>
-                }
+            
 
-            </div>
-        </>
+            {props.loggedIn && <button className="h-8 rounded-md px-4 py-1 bg-gray-600 text-gray-100 ml-8 mt-1" onClick={
+                props.handleSignOut}>
+                Log out
+            </button>
+            }
+
+        </nav>
     )
 }
 
