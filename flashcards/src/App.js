@@ -12,24 +12,32 @@ import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CardBuilder from './pages/CardBuilder';
+import EditDeck from './pages/EditDeck';
 
 const App = () => {
+  const emptyDeck = [{
+    "id": 6,
+    "front": "",
+    "back": "",
+    "deckId": 8,
+    "deck": null
+}]
   const [loggedIn, setLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState({ "uid": 0 })
   const [currentDbId, setCurrentDbId] = useState()
-  const [currentDeck, setCurrentDeck] = useState()
+  const [currentDeck, setCurrentDeck] = useState({id:0})
   const [usersDecks, setUsersDecks] = useState([])
+  const [publicDecks, setPublicDecks] = useState([])
+  const [deckCards, setDeckCards] = useState(emptyDeck)
   const navigate = useNavigate()
 
-
   const auth = getAuth();
+
   onAuthStateChanged(auth, (user) => {
     if (user===currentUser) {
-      console.log('chek')
     } else if (user) {
       setCurrentUser(user)
       getDbId(user.uid)
-      console.log('chek2')
       setLogin(true)
     } else {
       setLogin(false)
@@ -70,22 +78,46 @@ const App = () => {
       .catch((error) => console.error(error))
   }
 
+  const gatherCards = () => {
+    axios
+      .get('https://flashcard6.azurewebsites.net/api/Cards')
+      .then(
+        (response) => {
+          const dbData = response.data
+          const theseCards = dbData.filter((card) => {
+            return card.deckId === currentDeck.id
+          })
+          setDeckCards(theseCards)
+        },
+        (err) => console.error(err)
+      )
+      .catch((error) => console.error(error))
+  }
+  //grabs all decks that are public
+  const filterPublicDecks = (data) => {
+    const theseDecks = data.filter((deck) => {
+      return deck.private === false
+    })
+    setPublicDecks(theseDecks)
+   }
+
+  //function that loooks for decks with userid
   const filterUsersDecks = (data) => {
    const theseDecks = data.filter((deck) => {
      return deck.userId === currentDbId
-     console.log('tring')
    })
    setUsersDecks(theseDecks)
   }
-
+  
+  //function request to API for all decks and then calls on function above for decks belonging to user 
   const findUsersDecks = () => {
     axios
       .get('https://flashcard6.azurewebsites.net/api/Decks')
       .then(
         (response) => {
           const dbData = response.data
-          console.log(dbData)
           filterUsersDecks(dbData)
+          filterPublicDecks(dbData)
         },
         (err) => console.error(err)
       )
@@ -93,8 +125,12 @@ const App = () => {
   }
   useEffect(() => {
     findUsersDecks()
+  }, [currentDbId])
+
+  useEffect(() => {
+    gatherCards()
   },
-  []
+  [currentDeck]
   )
 
   return (
@@ -108,9 +144,11 @@ const App = () => {
           <Route path='/home' element={
             <RequireAuth>
               <Home
+              currentUser={currentUser}
                 usersDecks={usersDecks}
                 currentDeck={currentDeck}
                 setCurrentDeck={setCurrentDeck}
+                publicDecks={publicDecks}
                 currentDbId={currentDbId}
                 handleLogin={handleLogin} />
             </RequireAuth>
@@ -122,7 +160,7 @@ const App = () => {
           } />
           <Route path="/card" element={
             <RequireAuth>
-              <Card setCurrentDeck={setCurrentDeck} currentUser={currentUser} />
+              <Card currentDeck={currentDeck} deckCards={deckCards} currentUser={currentUser} />
             </RequireAuth>
           } />
           <Route path="/cardbuilder" element={
@@ -137,6 +175,7 @@ const App = () => {
               handleLogin={handleLogin}
               handleSignOut={handleSignOut} />
           } />
+          <Route path="/editdeck" element={<EditDeck currentDeck={currentDeck} deckcards={deckCards}/>} />
         </Routes>
       </main>
 
