@@ -44,7 +44,6 @@ const addUserToDb = (user) => {
 }
 //function gets users from DB
 const getDbUsers = (user) => {
-    console.log('here')
     axios
         .get('https://flashcard6.azurewebsites.net/api/Users')
         .then(
@@ -58,7 +57,6 @@ const getDbUsers = (user) => {
             (err) => console.error(err)
         )
         .catch((error) => console.error(error))
-    console.log('done')
 }
 
 

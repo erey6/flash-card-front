@@ -6,7 +6,7 @@ const Header = (props) => {
 
     return (
         <nav className="mt-4 flex justify-left h-16 ">
-            <h1 className="mt-2"> Quizzr</h1>
+            <h1 className="mt-1"> Quizzr</h1>
             <Link to={"/home"} className='pl-6 mt-2'>Home</Link>
             <Link to={"/home"} className='pl-6 mt-2'>Profile</Link>
 
