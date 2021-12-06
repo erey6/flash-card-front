@@ -27,14 +27,16 @@ const LogIn = (props) => {
         :
         <>
         <h2>Log in</h2>
-        <h3>Use your <a href="/" onClick={props.handleLogin}>Google account to login. </a></h3>
-            <form onSubmit={handleSubmit}>
+        
+            <form className="my-6" onSubmit={handleSubmit}>
             <label htmlFor="name">Email: </label>
             <input type="text" name="email" onChange={handleChange} value={aUser.email} /><br/>
             <label htmlFor="name">Password: </label>
             <input type="password" name="password" onChange={handleChange} value={aUser.password} />
                 <button type="submit">Submit</button>
             </form>
+
+            <h3>Or use your <button className="h-9 hover:bg-red-900 bg-red-600 ml-1" onClick={props.handleLogin}>Google </button>account to login. </h3>
             </>
         }
         </>

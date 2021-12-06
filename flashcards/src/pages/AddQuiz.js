@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
-const DeckBuilder = (props) => {
+const AddQuiz = (props) => {
     const emptyDeck = { "name": '', "description": '', "private": true, "UserId": props.currentDbId }
     const [deck, setDeck] = useState(emptyDeck)
     const [checkbox, setCheckbox] = useState(false) 
@@ -55,4 +55,4 @@ const DeckBuilder = (props) => {
     )
 }
 
-export default DeckBuilder;
+export default AddQuiz;

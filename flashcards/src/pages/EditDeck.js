@@ -58,14 +58,14 @@ const EditDeck = (props) => {
             <form className="my-3" onSubmit={handleSubmit}>
                 <h1 className="mb-6">Edit deck information</h1>
                 <label htmlFor="name">Name: </label>
-                <input className="shadow border block rounded py-1 px-3 my-2" type="text" name="name" onChange={handleChange} defaultValue={updatedDeck.name} />
+                <input type="text" name="name" onChange={handleChange} defaultValue={updatedDeck.name} />
                 <label className="block" htmlFor="description">Description: </label>
                 <textarea className="shadow resize-none border block rounded py-1 px-3 text-gray-700 my-2" type="text" name="description" value={updatedDeck.description} onChange={handleChange} autoComplete="off"> </textarea>
                 <div className="block my-3" >
-                    <input type="checkbox" id="private" name="private" value="private" onChange={handleCheck} checked={checkbox} />
+                    <input className="inline"type="checkbox" id="private" name="private" value="private" onChange={handleCheck} checked={checkbox} />
                     <label htmlFor="private" className="ml-2">Share with public</label>
                 </div>
-                <button className="h-8 rounded-md px-4 py-1 bg-gray-600 text-gray-100 mt-1" type="submit">Submit deck information edits</button>
+                <button  type="submit">Submit deck information edits</button>
             </form>
 
             
@@ -76,7 +76,7 @@ const EditDeck = (props) => {
             {updateCards.map((card, index) => {
                 return (
                     <div key={index} className="p-4 my-6 bg-gray-300 rounded-sm border-2 border-gray-300">
-                        <button className="h-6 block rounded-md px-4 bg-green-600 text-gray-100 mt-1 mr-3"
+                        <button className="h-6 block bg-green-600 hover:bg-green-400 text-gray-100 mt-1 mr-3"
                             onClick={() => {
                                 selectCard(card)
                             }}>Select to edit this card</button>

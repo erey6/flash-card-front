@@ -13,12 +13,13 @@ import LogIn from './pages/LogIn';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CardBuilder from './pages/CardBuilder';
 import EditDeck from './pages/EditDeck';
+import AddQuiz from './pages/AddQuiz';
 
 const App = () => {
   const emptyDeck = [{
     "id": 6,
-    "front": "",
-    "back": "",
+    "front": "a",
+    "back": "c",
     "deckId": 8,
     "deck": null
 }]
@@ -185,6 +186,11 @@ const App = () => {
           <Route path="/cardbuilder" element={
             <RequireAuth>
               <CardBuilder setCurrentDeck={setCurrentDeck} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />
+            </RequireAuth>
+          } />
+          <Route path="/addquiz" element={
+            <RequireAuth>
+              <AddQuiz setCurrentDeck={setCurrentDeck} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />
             </RequireAuth>
           } />
           <Route path="/login" element={

@@ -21,9 +21,11 @@ const Home = (props) => {
         <>
             <div className="mb-6 flex">
                 <Link to="/deckbuilder">
-                    <button className="h-8 rounded-md px-4 py-1 bg-green-600 text-gray-100 mt-1">Create flashcard deck</button>
+                    <button className="h-8 hover:bg-green-400 bg-green-600">Create flashcard deck</button>
                 </Link>
-                <button className="h-8 rounded-md px-4 py-1 bg-green-600 text-gray-100 mt-1 ml-8">Create quiz</button>
+                <Link to="/addquiz">
+                <button className="h-8 hover:bg-green-400 bg-green-600">Create quiz</button>
+                </Link>
             </div>
             <section>
                 <h1 className="py-3 border-t-2 border-b-2">Decks and quizzes for {props.currentUser.email}</h1>
@@ -35,10 +37,10 @@ const Home = (props) => {
                             <p>{deck.description}</p>
                             <button onClick={() => {
                                 handleOnClick(deck)
-                            }}className="h-6 rounded-md px-4 bg-gray-800 text-gray-100 mt-1" >Go</button>
+                            }} >Go</button>
                             <button onClick={() => {
                                 handleEditClick(deck)
-                            }}className="h-6 rounded-md px-4 bg-gray-600 text-gray-100 mt-1 ml-3" >Edit</button>
+                            }}>Edit</button>
                             </div>
                         )
                     }
@@ -55,7 +57,7 @@ const Home = (props) => {
                             <p>{deck.description}</p>
                             <button onClick={() => {
                                 handleOnClick(deck)
-                            }}className="h-6 rounded-md px-4 bg-gray-900 text-gray-100 mt-1" >Go</button>
+                            }}>Go</button>
                             </div>
                         )
                     }
