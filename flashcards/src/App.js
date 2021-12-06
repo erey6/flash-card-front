@@ -14,6 +14,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CardBuilder from './pages/CardBuilder';
 import EditDeck from './pages/EditDeck';
 import AddQuiz from './pages/AddQuiz';
+import AddQuestion from './pages/AddQuestion';
 
 const App = () => {
   const emptyDeck = [{
@@ -27,6 +28,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({ "uid": 0 })
   const [currentDbId, setCurrentDbId] = useState()
   const [currentDeck, setCurrentDeck] = useState({id:0})
+  const [currentQuiz, setCurrentQuiz] = useState({id:0})
   const [usersDecks, setUsersDecks] = useState([])
   const [publicDecks, setPublicDecks] = useState([])
   const [deckCards, setDeckCards] = useState(emptyDeck)
@@ -188,9 +190,14 @@ const App = () => {
               <CardBuilder setCurrentDeck={setCurrentDeck} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />
             </RequireAuth>
           } />
+          <Route path="/addquestion" element={
+            <RequireAuth>
+              <AddQuestion setCurrentDeck={setCurrentQuiz} currentQuiz={currentQuiz} currentUser={currentUser} currentDbId={currentDbId} />
+            </RequireAuth>
+          } />
           <Route path="/addquiz" element={
             <RequireAuth>
-              <AddQuiz setCurrentDeck={setCurrentDeck} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />
+              <AddQuiz setCurrentQuiz={setCurrentQuiz} currentQuiz={currentQuiz} currentUser={currentUser} currentDbId={currentDbId} />
             </RequireAuth>
           } />
           <Route path="/login" element={

@@ -3,52 +3,52 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const AddQuiz = (props) => {
-    const emptyDeck = { "name": '', "description": '', "private": true, "UserId": props.currentDbId }
-    const [deck, setDeck] = useState(emptyDeck)
+    const emptyQuiz = { "name": '', "description": '', "private": true, "UserId": props.currentDbId }
+    const [quiz, setQuiz] = useState(emptyQuiz)
     const [checkbox, setCheckbox] = useState(false) 
 
     const navigate = useNavigate()
     const handleChange = (event) => {
-        setDeck({ ...deck, [event.target.name]: event.target.value })
+        setQuiz({ ...quiz, [event.target.name]: event.target.value })
     }
     const handleCheck = (event) => {
         setCheckbox(!checkbox)
-        setDeck({...deck, ["private"]: checkbox})
+        setQuiz({...quiz, ["private"]: checkbox})
 
         
     }
     const handleSubmit = (e) => {
         e.preventDefault()
         axios
-            .post('https://flashcard6.azurewebsites.net/api/Decks',
-                deck)
+            .post('https://flashcard6.azurewebsites.net/api/Quizzes',
+                quiz)
             .then((response) => {
-                props.setCurrentDeck(response.data)
-                navigate("/cardbuilder")
+                props.setCurrentQuiz(response.data)
+                navigate("/addquestion")
 
             })
     }
 
     return (
         <>
-            <h1>Build your deck!</h1>
-            <h3>First give your deck a name and a description.</h3>
+            <h1>Build your Quiz!</h1>
+            <h3>First give your quiz a name and a description.</h3>
             <blockquote>
                 <p>For example:</p>
-                <p className="italic text-gray-500 pl-3">Name: State Capitals</p>
-                <p className="italic text-gray-500 pl-3">Description: Given the state, can you name the capital city?</p>
+                <p >Name: Presidential Trivia</p>
+                <p >Description: See if you can answer these questions about U.S. presidents! </p>
             </blockquote>
 
             <form className="my-3" onSubmit={handleSubmit}>
                 <label htmlFor="name">Name: </label>
-                <input className="shadow border rounded py-1 px-3 ml-3 my-2" type="text" name="name" onChange={handleChange} value={deck.name} /><br />
+                <input type="text" name="name" onChange={handleChange} value={quiz.name} /><br />
                 <label className="block" htmlFor="description">Description: </label>
-                <textarea className="shadow resize-none border block rounded py-1 px-3 text-gray-700 my-2" type="text" name="description" value={deck.description} onChange={handleChange} autoComplete="off"> </textarea>
+                <textarea className="shadow resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" type="text" name="description" value={quiz.description} onChange={handleChange} autoComplete="off"> </textarea>
                 <div className="block my-3" >
-                    <input type="checkbox" id="private" name="private" value="private" onChange={handleCheck} />
+                    <input className="inline" type="checkbox" id="private" name="private" value="private" onChange={handleCheck} />
                     <label htmlFor="private" className="ml-2">Share with public</label>
                 </div>
-                <button className="h-8 rounded-md px-4 py-1 bg-gray-600 text-gray-100 mt-1" type="submit">Submit</button>
+                <button className="h-8" type="submit">Submit</button>
             </form>
 
         </>

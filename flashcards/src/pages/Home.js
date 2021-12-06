@@ -4,15 +4,21 @@ import { useNavigate, Link } from 'react-router-dom'
 const Home = (props) => {
     const navigate = useNavigate()
 
-    const handleOnClick = (deck) => {
-        console.log(deck)
-          props.setCurrentDeck(deck)
-          navigate("/card")       
+    const handleOnClick = (chosen, type) => {
+        console.log(chosen)
+        if(type === "flash")
+        { 
+          props.setCurrentDeck(chosen)
+          navigate("/card") 
+        } else {
+            props.setCurrentQuiz(chosen)
+            navigate("/question")
+        }
     }
 
-    const handleEditClick = (deck) => {
-        console.log(deck)
-          props.setCurrentDeck(deck)
+    const handleEditClick = (chosen) => {
+        console.log(chosen)
+          props.setCurrentDeck(chosen)
           navigate("/editdeck")
           
     }
@@ -36,10 +42,28 @@ const Home = (props) => {
                             <h2>{deck.name}</h2>
                             <p>{deck.description}</p>
                             <button onClick={() => {
-                                handleOnClick(deck)
+                                handleOnClick(deck, "flash")
                             }} >Go</button>
                             <button onClick={() => {
-                                handleEditClick(deck)
+                                handleEditClick(deck, "flash")
+                            }}>Edit</button>
+                            </div>
+                        )
+                    }
+
+                    )}
+                </div>
+                <div className="mb-6 flex flex-wrap gap-x-4">
+                    {props.usersQuizzes.map((quiz) => {
+                        return(
+                            <div className="w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={quiz.id}>
+                            <h2>{quiz.name}</h2>
+                            <p>{quiz.description}</p>
+                            <button onClick={() => {
+                                handleOnClick(quiz, "quiz")
+                            }} >Go</button>
+                            <button onClick={() => {
+                                handleEditClick(quiz, "quiz")
                             }}>Edit</button>
                             </div>
                         )
@@ -64,7 +88,7 @@ const Home = (props) => {
                     )}
                 </div>
             </section>
-
+                        <Link to="/addquestion">remove later go to add q </Link>
         </>
     )
 }

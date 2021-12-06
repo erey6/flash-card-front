@@ -21,7 +21,12 @@
   input {
     @apply shadow border block rounded py-1 px-3 my-2
   }
+
+  blockquote {
+    @apply italic text-gray-500 pl-3
+  }
 }
+  
 
 body {
   margin: 0 auto;
