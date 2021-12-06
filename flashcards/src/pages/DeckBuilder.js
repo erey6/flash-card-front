@@ -14,6 +14,7 @@ const DeckBuilder = (props) => {
     const handleCheck = (event) => {
         setCheckbox(!checkbox)
         setDeck({...deck, ["private"]: checkbox})
+
         
     }
     const handleSubmit = (e) => {

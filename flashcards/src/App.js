@@ -175,7 +175,7 @@ const App = () => {
               handleLogin={handleLogin}
               handleSignOut={handleSignOut} />
           } />
-          <Route path="/editdeck" element={<EditDeck currentDeck={currentDeck} deckcards={deckCards}/>} />
+          <Route path="/editdeck" element={<EditDeck currentDeck={currentDeck} deckCards={deckCards}/>} />
         </Routes>
       </main>
 

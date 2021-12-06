@@ -49,7 +49,7 @@ const Home = (props) => {
                 <div className="mb-6 flex flex-wrap gap-x-4">
                     {props.publicDecks.map((deck) => {
                         return(
-                            deck.userId != props.currentDbId &&
+                            deck.userId !== props.currentDbId &&
                             <div className="w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={deck.id}>
                             <h2>{deck.name}</h2>
                             <p>{deck.description}</p>
