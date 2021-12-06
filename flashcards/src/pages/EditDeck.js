@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import EditCard from '../components/EditCard'
 
 const EditDeck = (props) => {
     const [updatedDeck, setUpdatedDeck] = useState(props.currentDeck)
     const [checkbox, setCheckbox] = useState(!props.currentDeck.private)
     const [updateCards, setUpdatedCards] = useState(props.deckCards)
-    const [changingCard, setChangingCard] = useState({ "front": 'e', "back": '', "deckid": props.currentDeck.id })
-    const [targetCard, setTargetCard] = useState()
+    const [changingCard, setChangingCard] = useState({ "front": '', "back": '', "deckid": props.currentDeck.id })
+    const [targetCard, setTargetCard] = useState(true)
 
 
     const navigate = useNavigate()
@@ -19,7 +20,6 @@ const EditDeck = (props) => {
             .then((response) => {
                 // props.setCurrentDeck(response.data)
                 navigate("/home")
-
             })
     }
 
@@ -38,16 +38,32 @@ const EditDeck = (props) => {
 
     }
 
-    const selectCard = (index) => {
-        setTargetCard(index)
-
+    const selectCard = (card) => {
+        setChangingCard(card)
     }
+
+    const editCard = (card) => {
+        axios
+        .put(`https://flashcard6.azurewebsites.net/api/Cards/${card.id}`,
+           card)
+        .then((response) => {
+            // props.setCurrentDeck(response.data)
+            setTargetCard(false)
+        })
+    }
+
+    //once a card is selected, will go to new form by toggling targetCard boolean
+    useEffect(
+        () => {
+        setTargetCard(!targetCard)
+        }, [changingCard]
+    )
 
     useEffect(
         () => {
             setUpdatedCards(props.deckCards)
         },
-        [props.deckCards]
+        [props.deckCards, targetCard]
     );
 
     return (
@@ -65,14 +81,17 @@ const EditDeck = (props) => {
                 <button className="h-8 rounded-md px-4 py-1 bg-gray-600 text-gray-100 mt-1" type="submit">Submit deck information edits</button>
             </form>
 
+            
+            {targetCard ?
+            <EditCard editCard={editCard} changingCard={changingCard} setTargetCard={setTargetCard}/>
+            :<>
             <h1 className="mt-9">Edit Cards</h1>
-
             {updateCards.map((card, index) => {
                 return (
-                    <div key={index} className={index === targetCard ? "p-4 shadow-inner my-6 rounded-sm border-2 border-green-400" : "p-4 my-6 bg-gray-300 rounded-sm border-2 border-gray-300"}>
+                    <div key={index} className="p-4 my-6 bg-gray-300 rounded-sm border-2 border-gray-300">
                         <button className="h-6 block rounded-md px-4 bg-green-600 text-gray-100 mt-1 mr-3"
                             onClick={() => {
-                                selectCard(index)
+                                selectCard(card)
                             }}>Select to edit this card</button>
                         <div className="my-3">
                             <h3>Front</h3>
@@ -86,7 +105,8 @@ const EditDeck = (props) => {
                         </div>
                     </div>
                 )
-            })}
+            })}</>
+            }
 
         </>
     )
