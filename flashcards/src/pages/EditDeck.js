@@ -18,7 +18,7 @@ const EditDeck = (props) => {
             .put(`https://flashcard6.azurewebsites.net/api/Decks/${props.currentDeck.id}`,
                 updatedDeck)
             .then((response) => {
-                // props.setCurrentDeck(response.data)
+                props.findUsersDecks()
                 navigate("/home")
             })
     }
@@ -32,38 +32,25 @@ const EditDeck = (props) => {
         setUpdatedDeck({ ...updatedDeck, "private": checkbox })
     }
 
-    const handleCardSubmit = (e) => {
-        e.preventDefault()
-        console.log(changingCard)
-
-    }
-
     const selectCard = (card) => {
         setChangingCard(card)
     }
 
-    const editCard = (card) => {
-        axios
-        .put(`https://flashcard6.azurewebsites.net/api/Cards/${card.id}`,
-           card)
-        .then((response) => {
-            // props.setCurrentDeck(response.data)
-            setTargetCard(false)
-        })
+    // once a card is selected, will go to new form by toggling targetCard boolean
+    useEffect( () => {
+        const cardToggle = () => {
+            setTargetCard(!targetCard)
+        };
+        cardToggle()
     }
-
-    //once a card is selected, will go to new form by toggling targetCard boolean
-    useEffect(
-        () => {
-        setTargetCard(!targetCard)
-        }, [changingCard]
+       , [changingCard]
     )
 
     useEffect(
         () => {
             setUpdatedCards(props.deckCards)
         },
-        [props.deckCards, targetCard]
+        [props.deckCards]
     );
 
     return (
@@ -83,7 +70,7 @@ const EditDeck = (props) => {
 
             
             {targetCard ?
-            <EditCard editCard={editCard} changingCard={changingCard} setTargetCard={setTargetCard}/>
+            <EditCard editCard={props.editCard} changingCard={changingCard} setTargetCard={setTargetCard}/>
             :<>
             <h1 className="mt-9">Edit Cards</h1>
             {updateCards.map((card, index) => {

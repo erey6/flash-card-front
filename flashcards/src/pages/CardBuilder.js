@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 const CardBuilder = (props) => {
-    const [cardCount, setCardCount] = useState(1)
     const emptyCard = { "front": '', "back": '', "deckid": props.currentDeck.id}
     const [card, setCard] = useState(emptyCard)
     const navigate = useNavigate()

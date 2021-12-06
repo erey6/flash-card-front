@@ -118,11 +118,30 @@ const App = () => {
           const dbData = response.data
           filterUsersDecks(dbData)
           filterPublicDecks(dbData)
+          
         },
         (err) => console.error(err)
       )
       .catch((error) => console.error(error))
   }
+
+  const getUpdatedDeck = () => {
+    let editedDeck = usersDecks.find((deck) => deck.id === currentDeck.id)
+    setCurrentDeck(editedDeck)
+  }
+  //function from editcard puts new card, then resets currentdeck
+  const editCard = (card) => {
+    axios
+        .put(`https://flashcard6.azurewebsites.net/api/Cards/${card.id}`,
+           card)
+        .then((response) => {
+          gatherCards()
+          findUsersDecks()
+          getUpdatedDeck()
+        })
+}
+
+
   useEffect(() => {
     findUsersDecks()
   }, [currentDbId])
@@ -175,7 +194,7 @@ const App = () => {
               handleLogin={handleLogin}
               handleSignOut={handleSignOut} />
           } />
-          <Route path="/editdeck" element={<EditDeck currentDeck={currentDeck} deckCards={deckCards}/>} />
+          <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards}/>} />
         </Routes>
       </main>
 

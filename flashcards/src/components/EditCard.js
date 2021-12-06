@@ -1,17 +1,18 @@
 import React, {useState} from 'react'
-import axios from 'axios'
 
 const EditCard = (props) => {
 
-    const [newFront, setNewFront] = useState(props.changingCard.front)
-    const [newBack, setNewBack] = useState(props.changingCard.back)
+    // const [newFront, setNewFront] = useState(props.changingCard.front)
+    // const [newBack, setNewBack] = useState(props.changingCard.back)
     const [newCard, setNewCard] = useState(props.changingCard)
     
     const handleOnChange = (e) => {
         setNewCard({...newCard, [e.target.name]: e.target.value})
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        props.setTargetCard(false)
         props.editCard(newCard)
     }
 
