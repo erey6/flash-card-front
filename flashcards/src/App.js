@@ -78,6 +78,19 @@ const App = () => {
     }
     return children;
   }
+
+  //delete something
+  const deleteSomething = (id, address) => {
+    axios
+    .delete(`https://flashcard6.azurewebsites.net/api/${address}/${id}`)
+    .then((response) => {
+      findUsersDecks()
+      if(address==="Cards") {
+        gatherCards()
+      }
+    })
+  }
+
   //gets userID stored in database.
   const getDbId = (fbId) => {
     axios
@@ -255,7 +268,7 @@ const gatherQuestions = () => {
           } />
           <Route path="/cardbuilder" element={
             <RequireAuth>
-              <CardBuilder setCurrentDeck={setCurrentDeck} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />
+              <CardBuilder setCurrentDeck={setCurrentDeck} findUsersDecks={findUsersDecks} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />
             </RequireAuth>
           } />
           <Route path="/addquestion" element={
@@ -275,7 +288,7 @@ const gatherQuestions = () => {
               handleLogin={handleLogin}
               handleSignOut={handleSignOut} />
           } />
-          <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards} />} />
+          <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards} deleteSomething={deleteSomething} />} />
         </Routes>
       </main>
 

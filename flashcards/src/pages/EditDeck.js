@@ -10,7 +10,6 @@ const EditDeck = (props) => {
     const [changingCard, setChangingCard] = useState({ "front": '', "back": '', "deckid": props.currentDeck.id })
     const [targetCard, setTargetCard] = useState(true)
 
-
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -22,6 +21,15 @@ const EditDeck = (props) => {
                 navigate("/home")
             })
     }
+
+    const handleDelete = (e) => {
+        props.deleteSomething(e.target.value, "Decks");
+        navigate("/home");
+    } 
+    const handleCardDelete = (e) => {
+        props.deleteSomething(e.target.value, "Cards");
+        navigate("/editdeck");
+    } 
 
     const handleChange = (e) => {
         setUpdatedDeck({ ...updatedDeck, [e.target.name]: e.target.value })
@@ -67,6 +75,7 @@ const EditDeck = (props) => {
                 </div>
                 <button  type="submit">Submit deck information edits</button>
             </form>
+            <button type="button" className="bg-red-800" onClick={handleDelete} value={props.currentDeck.id}>Delete this deck</button>
 
             
             {targetCard ?
@@ -76,10 +85,12 @@ const EditDeck = (props) => {
             {updateCards.map((card, index) => {
                 return (
                     <div key={index} className="p-4 my-6 bg-gray-300 rounded-sm border-2 border-gray-300">
-                        <button className="h-6 block bg-green-600 hover:bg-green-400 text-gray-100 mt-1 mr-3"
+                        <button className="bg-green-600 hover:bg-green-400"
                             onClick={() => {
                                 selectCard(card)
                             }}>Select to edit this card</button>
+                            <button className="inline bg-red-800"
+                            onClick={handleCardDelete} value={card.id} >Delete this card</button>
                         <div className="my-3">
                             <h3>Front</h3>
                             <p className="shadow bg-gray-100  resize-vertical border block rounded py-1 px-3 text-gray-700 my-2">

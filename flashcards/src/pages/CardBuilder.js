@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const CardBuilder = (props) => {
     const emptyCard = { "front": '', "back": '', "deckid": props.currentDeck.id}
@@ -10,6 +11,10 @@ const CardBuilder = (props) => {
         setCard({...card, [event.target.name]: event.target.value})
     }
 
+    const handleClick = () => {
+        props.findUsersDecks()
+        navigate("/home")
+    }
     const handleSubmit = (e) => {
             e.preventDefault()
             axios
@@ -41,11 +46,10 @@ const CardBuilder = (props) => {
             <textarea className="shadow resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" type="text" name="back" value={card.back} onChange={handleChange} autoComplete="off"> </textarea>
             </div>
             </div>
-            <button className="h-8 rounded-md px-4 py-1 bg-gray-600 text-gray-100 mt-1" type="submit">Submit</button>
+            <button className="h-8" type="submit">Submit</button>
             </form>
-            <div className="w-3/12 h-8 rounded-md px-4 py-1 bg-gray-600 text-gray-100 mt-1 mb-3">
-            <Link to="/home">Done adding cards</Link>
-            </div>
+            <button type="button" className="h-8" onClick={handleClick}>Done adding cards</button>
+            
         </>
     )
 }

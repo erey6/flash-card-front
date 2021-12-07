@@ -41,7 +41,7 @@ const DeckBuilder = (props) => {
 
             <form className="my-3" onSubmit={handleSubmit}>
                 <label htmlFor="name">Name: </label>
-                <input className="shadow border rounded py-1 px-3 ml-3 my-2" type="text" name="name" onChange={handleChange} value={deck.name} /><br />
+                <input type="text" name="name" onChange={handleChange} value={deck.name} /><br />
                 <label className="block" htmlFor="description">Description: </label>
                 <textarea className="shadow resize-none border block rounded py-1 px-3 text-gray-700 my-2" type="text" name="description" value={deck.description} onChange={handleChange} autoComplete="off"> </textarea>
                 <div className="block my-3" >
