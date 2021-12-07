@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react/cjs/react.development';
 
 const Question = (props) => {
     const { currentQuiz, quizQuestions, currentUser } = props
     const [queryIndex, setQueryIndex] = useState(0)
     // const [correct, setCorrect] = useState(quizQuestions[queryIndex].options[0])
-    const [answerOptions, setAnswerOptions] = useState(quizQuestions[queryIndex].options)
+    const [answerOptions, setAnswerOptions] = useState(['a','b','c'])
     const [randomOrder, setRandomOrder] = useState([2,0,1])
     const [chosen, setChosen] = useState()
     const [score, setScore] = useState(0)
     const [onQuestion, setOnQuestion] = useState(0)
     const [answered, setAnswered] = useState(false)
     const [answeredCorrect, setAnsweredCorrect] = useState()
+    
 
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         setChosen(e.target.value)
@@ -26,8 +29,10 @@ const Question = (props) => {
             console.log(chosen)
             setAnsweredCorrect(true)
             setScore(score+1)
+            
         } else {
             setAnsweredCorrect(false)
+            console.log(chosen)
         }
     }
 
@@ -35,6 +40,12 @@ const Question = (props) => {
         setAnswered(!answered)
         setAnsweredCorrect(null)
         setQueryIndex(queryIndex+1)
+        setChosen(null)
+        
+    }
+
+    const restartQuiz = () => {
+        navigate("/question")
     }
 
     //get a random order for the options
@@ -71,6 +82,7 @@ const Question = (props) => {
                               type="radio"
                               name="answer"
                               value={i}
+                              checked={(chosen == i)}
                               onChange={handleChange}
                               
                             /> <label>
@@ -84,6 +96,8 @@ const Question = (props) => {
                  {(answered && answeredCorrect ===true) && <h3 className="mr-3 inline text-green-600">Correct!</h3>}
                  {(answered && answeredCorrect ===false) &&  <h3 className="mr-3 inline text-red-600">Wrong</h3> }
                  {(answered && queryIndex < quizQuestions.length-1) && <button type="button" className="bg-green-400 hover:bg-green-600" onClick={nextQuestion}> Next question</button> }
+                 {(answered && queryIndex === quizQuestions.length-1) && <button type="button" className="bg-green-400 hover:bg-green-600" onClick={restartQuiz}> Restart Quiz</button> }
+
             </div>
 
 
