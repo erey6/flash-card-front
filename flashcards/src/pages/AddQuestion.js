@@ -39,7 +39,7 @@ const AddQuestion = (props) => {
 
     return (
         <>
-            <h1>Add questions to your deck: {props.currentQuiz.name}</h1>
+            <h1>Add questions to your quiz: {props.currentQuiz.name}</h1>
             <h3>Each question has at least two options for the answer. Enter the first option as the correct one. They will be presented in a random order during the quiz. </h3>
             <blockquote>
                 <p>For example:</p>
@@ -51,7 +51,7 @@ const AddQuestion = (props) => {
             <form className="my-3" onSubmit={handleSubmit}>
 
                 <div className="flex-column">
-                    <div className="w-auto border-2 my-3">
+                    <div className="w-auto my-3">
                         <label className="block" htmlFor="front">Question: </label>
                         <textarea className="w-4/6 shadow resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" type="text" name="query" value={question.query} onChange={handleChange} autoComplete="off"> </textarea>
                     </div>

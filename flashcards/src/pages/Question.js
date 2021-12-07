@@ -4,7 +4,7 @@ import { useEffect } from 'react/cjs/react.development';
 const Question = (props) => {
     const { currentQuiz, quizQuestions, currentUser } = props
     const [queryIndex, setQueryIndex] = useState(0)
-    const [correct, setCorrect] = useState(quizQuestions[queryIndex].options[0])
+    // const [correct, setCorrect] = useState(quizQuestions[queryIndex].options[0])
     const [answerOptions, setAnswerOptions] = useState(quizQuestions[queryIndex].options)
     const [randomOrder, setRandomOrder] = useState([2,0,1])
     const [chosen, setChosen] = useState()
@@ -22,12 +22,18 @@ const Question = (props) => {
         e.preventDefault()
         setOnQuestion(onQuestion+1)
         setAnswered(true)
-        if(chosen===correct) {
-            console.log("yay!")
+        if(chosen==="0") {
+            console.log(chosen)
             setScore(score+1)
         } else {
             console.log("boo")
+            console.log(chosen)
         }
+    }
+
+    const nextQuestion = () => {
+        setAnswered(!answered)
+        setQueryIndex(queryIndex+1)
     }
 
     //get a random order for the options
@@ -37,11 +43,17 @@ const Question = (props) => {
         setRandomOrder(rndNums)
     }, [answerOptions])
 
+    //if query index changes get new answer Options
+    useEffect(() => {
+        setAnswerOptions(quizQuestions[queryIndex].options)
+        
+    }, [queryIndex])
+
     return (
         <>
             <h1>{currentQuiz.name}</h1>
             <h3 className="my-3">{currentQuiz.description}</h3>
-            <h4 className="my-2">There will be {answerOptions.length} questions in this quiz. Good luck!</h4>
+            <h4 className="my-2">There will be {quizQuestions.length} questions in this quiz. Good luck!</h4>
             <h4 className="my-2">Your score: {score} / {onQuestion} </h4>
             <div className="mb-4 border-4 p-6 rounded-sm ">
             
@@ -49,7 +61,7 @@ const Question = (props) => {
                     Q: {quizQuestions[queryIndex].query}
                 </p>
                 <form onSubmit={handleSubmit}>
-                {randomOrder.map((index) => {
+                {randomOrder.map((i) => {
                      return(
                         <div>
                          
@@ -57,17 +69,18 @@ const Question = (props) => {
                             className="inline mr-2"
                               type="radio"
                               name="answer"
-                              value={answerOptions[index]}
+                              value={i}
                               onChange={handleChange}
                               
                             /> <label>
-                            {answerOptions[index]}
+                            {answerOptions[i]}
                           </label>
                         </div>
                      )
                 })}
-                <button type="submit">Check answer</button>
+                {!answered && <button type="submit">Check answer</button>}
                  </form>
+                 {(answered && queryIndex < quizQuestions.length-1) && <button type="button" className="bg-green-400 hover:bg-green-600" onClick={nextQuestion}> Next question</button> }
             </div>
 
 
