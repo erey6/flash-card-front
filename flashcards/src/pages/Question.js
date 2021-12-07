@@ -24,15 +24,16 @@ const Question = (props) => {
         setAnswered(true)
         if(chosen==="0") {
             console.log(chosen)
+            setAnsweredCorrect(true)
             setScore(score+1)
         } else {
-            console.log("boo")
-            console.log(chosen)
+            setAnsweredCorrect(false)
         }
     }
 
     const nextQuestion = () => {
         setAnswered(!answered)
+        setAnsweredCorrect(null)
         setQueryIndex(queryIndex+1)
     }
 
@@ -80,6 +81,8 @@ const Question = (props) => {
                 })}
                 {!answered && <button type="submit">Check answer</button>}
                  </form>
+                 {(answered && answeredCorrect ===true) && <h3 className="mr-3 inline text-green-600">Correct!</h3>}
+                 {(answered && answeredCorrect ===false) &&  <h3 className="mr-3 inline text-red-600">Wrong</h3> }
                  {(answered && queryIndex < quizQuestions.length-1) && <button type="button" className="bg-green-400 hover:bg-green-600" onClick={nextQuestion}> Next question</button> }
             </div>
 
