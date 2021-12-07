@@ -15,29 +15,41 @@ import CardBuilder from './pages/CardBuilder';
 import EditDeck from './pages/EditDeck';
 import AddQuiz from './pages/AddQuiz';
 import AddQuestion from './pages/AddQuestion';
+import Question from './pages/Question';
 
 const App = () => {
   const emptyDeck = [{
-    "id": 6,
+    "id": 0,
     "front": "a",
     "back": "c",
     "deckId": 8,
     "deck": null
-}]
+  }]
+
+  const emptyQuiz= [{
+    "id": 0,
+    "Query": "q",
+    "Options": [],
+    "QuizId": 0,
+    "quiz": null
+  }]
   const [loggedIn, setLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState({ "uid": 0 })
   const [currentDbId, setCurrentDbId] = useState()
-  const [currentDeck, setCurrentDeck] = useState({id:0})
-  const [currentQuiz, setCurrentQuiz] = useState({id:0})
+  const [currentDeck, setCurrentDeck] = useState({ id: 0 })
+  const [currentQuiz, setCurrentQuiz] = useState({ id: 0 })
   const [usersDecks, setUsersDecks] = useState([])
+  const [usersQuizzes, setUsersQuizzes] = useState([])
   const [publicDecks, setPublicDecks] = useState([])
+  const [publicQuizzes, setPublicQuizzes] = useState([])
   const [deckCards, setDeckCards] = useState(emptyDeck)
+  const [quizQuestions, setQuizQuestions] = useState(emptyQuiz)
   const navigate = useNavigate()
 
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
-    if (user===currentUser) {
+    if (user === currentUser) {
     } else if (user) {
       setCurrentUser(user)
       getDbId(user.uid)
@@ -81,6 +93,24 @@ const App = () => {
       .catch((error) => console.error(error))
   }
 
+//gets all questions for current quiz
+const gatherQuestions = () => {
+  axios
+    .get('https://flashcard6.azurewebsites.net/api/Questions')
+    .then(
+      (response) => {
+        const dbData = response.data
+        const theseQuestions = dbData.filter((question) => {
+          return question.quizId === currentQuiz.id
+        })
+        setQuizQuestions(theseQuestions)
+      },
+      (err) => console.error(err)
+    )
+    .catch((error) => console.error(error))
+}
+
+//gets all cards for current deck 
   const gatherCards = () => {
     axios
       .get('https://flashcard6.azurewebsites.net/api/Cards')
@@ -96,22 +126,30 @@ const App = () => {
       )
       .catch((error) => console.error(error))
   }
-  //grabs all decks that are public
-  const filterPublicDecks = (data) => {
-    const theseDecks = data.filter((deck) => {
-      return deck.private === false
+  //grabs all decks or quizzes that are public
+  const filterPublicDecks = (data, type) => {
+    const theseResults = data.filter((item) => {
+      return item.private === false
     })
-    setPublicDecks(theseDecks)
-   }
-
-  //function that loooks for decks with userid
-  const filterUsersDecks = (data) => {
-   const theseDecks = data.filter((deck) => {
-     return deck.userId === currentDbId
-   })
-   setUsersDecks(theseDecks)
+    if (type === "decks") {
+      setPublicDecks(theseResults)
+    } else {
+      setPublicQuizzes(theseResults)
+    }
   }
-  
+
+  //function that loooks for decks or quizzes with userid
+  const filterUsersDecks = (data, type) => {
+    const theseResults = data.filter((deck) => {
+      return deck.userId === currentDbId
+    })
+    if (type === "decks") {
+      setUsersDecks(theseResults)
+    } else {
+      setUsersQuizzes(theseResults)
+    }
+  }
+
   //function request to API for all decks and then calls on function above for decks belonging to user 
   const findUsersDecks = () => {
     axios
@@ -119,9 +157,25 @@ const App = () => {
       .then(
         (response) => {
           const dbData = response.data
-          filterUsersDecks(dbData)
-          filterPublicDecks(dbData)
-          
+          filterUsersDecks(dbData, "decks")
+          filterPublicDecks(dbData, "decks")
+
+        },
+        (err) => console.error(err)
+      )
+      .catch((error) => console.error(error))
+  }
+
+  //function request to API for all decks and then calls on function above for quizzes belonging to user 
+  const findUsersQuizzes = () => {
+    axios
+      .get('https://flashcard6.azurewebsites.net/api/Quizzes')
+      .then(
+        (response) => {
+          const dbData = response.data
+          filterUsersDecks(dbData, "quizzes")
+          filterPublicDecks(dbData, "quizzes")
+
         },
         (err) => console.error(err)
       )
@@ -135,24 +189,31 @@ const App = () => {
   //function from editcard puts new card, then resets currentdeck
   const editCard = (card) => {
     axios
-        .put(`https://flashcard6.azurewebsites.net/api/Cards/${card.id}`,
-           card)
-        .then((response) => {
-          gatherCards()
-          findUsersDecks()
-          getUpdatedDeck()
-        })
-}
+      .put(`https://flashcard6.azurewebsites.net/api/Cards/${card.id}`,
+        card)
+      .then((response) => {
+        gatherCards()
+        findUsersDecks()
+        getUpdatedDeck()
+      })
+  }
 
 
   useEffect(() => {
     findUsersDecks()
+    findUsersQuizzes()
   }, [currentDbId])
 
   useEffect(() => {
     gatherCards()
   },
-  [currentDeck]
+    [currentDeck]
+  )
+
+  useEffect(() => {
+    gatherQuestions()
+  },
+    [currentQuiz]
   )
 
   return (
@@ -166,13 +227,15 @@ const App = () => {
           <Route path='/home' element={
             <RequireAuth>
               <Home
-              currentUser={currentUser}
+                currentUser={currentUser}
                 usersDecks={usersDecks}
-                currentDeck={currentDeck}
+                usersQuizzes={usersQuizzes}
                 setCurrentDeck={setCurrentDeck}
+                setCurrentQuiz={setCurrentQuiz}
                 publicDecks={publicDecks}
+                publicQuizzes={publicQuizzes}
                 currentDbId={currentDbId}
-                handleLogin={handleLogin} />
+                />
             </RequireAuth>
           } />
           <Route path="/deckbuilder" element={
@@ -185,6 +248,11 @@ const App = () => {
               <Card currentDeck={currentDeck} deckCards={deckCards} currentUser={currentUser} />
             </RequireAuth>
           } />
+          <Route path="/question" element={
+            <RequireAuth>
+              <Question currentQuiz={currentQuiz} quizQuestions={quizQuestions} currentUser={currentUser} />
+            </RequireAuth>
+          } />
           <Route path="/cardbuilder" element={
             <RequireAuth>
               <CardBuilder setCurrentDeck={setCurrentDeck} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />
@@ -192,7 +260,7 @@ const App = () => {
           } />
           <Route path="/addquestion" element={
             <RequireAuth>
-              <AddQuestion setCurrentDeck={setCurrentQuiz} currentQuiz={currentQuiz} currentUser={currentUser} currentDbId={currentDbId} />
+              <AddQuestion currentQuiz={currentQuiz} currentUser={currentUser} currentDbId={currentDbId} />
             </RequireAuth>
           } />
           <Route path="/addquiz" element={
@@ -207,7 +275,7 @@ const App = () => {
               handleLogin={handleLogin}
               handleSignOut={handleSignOut} />
           } />
-          <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards}/>} />
+          <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards} />} />
         </Routes>
       </main>
 

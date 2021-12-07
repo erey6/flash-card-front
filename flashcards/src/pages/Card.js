@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react/cjs/react.development'
+import React, { useState, useEffect } from 'react'
+
 
 const Card = (props) => {
     const [showFront, setShowFront] = useState(false)
@@ -36,7 +36,6 @@ const Card = (props) => {
 
                 <h2>
                     {showFront ?
-
                         <>{props.deckCards[cardIndex].front}</> :
                         <>{props.deckCards[cardIndex].back}</>
                     }
