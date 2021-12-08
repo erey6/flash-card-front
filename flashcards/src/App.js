@@ -26,7 +26,7 @@ const App = () => {
     "deck": null
   }]
 
-  const emptyQuiz= [{
+  const emptyQuiz = [{
     "id": 0,
     "Query": "q",
     "Options": [],
@@ -82,13 +82,13 @@ const App = () => {
   //delete something
   const deleteSomething = (id, address) => {
     axios
-    .delete(`https://flashcard6.azurewebsites.net/api/${address}/${id}`)
-    .then((response) => {
-      findUsersDecks()
-      if(address==="Cards") {
-        gatherCards()
-      }
-    })
+      .delete(`https://flashcard6.azurewebsites.net/api/${address}/${id}`)
+      .then((response) => {
+        findUsersDecks()
+        if (address === "Cards") {
+          gatherCards()
+        }
+      })
   }
 
   //gets userID stored in database.
@@ -106,24 +106,24 @@ const App = () => {
       .catch((error) => console.error(error))
   }
 
-//gets all questions for current quiz
-const gatherQuestions = () => {
-  axios
-    .get('https://flashcard6.azurewebsites.net/api/Questions')
-    .then(
-      (response) => {
-        const dbData = response.data
-        const theseQuestions = dbData.filter((question) => {
-          return question.quizId === currentQuiz.id
-        })
-        setQuizQuestions(theseQuestions)
-      },
-      (err) => console.error(err)
-    )
-    .catch((error) => console.error(error))
-}
+  //gets all questions for current quiz
+  const gatherQuestions = () => {
+    axios
+      .get('https://flashcard6.azurewebsites.net/api/Questions')
+      .then(
+        (response) => {
+          const dbData = response.data
+          const theseQuestions = dbData.filter((question) => {
+            return question.quizId === currentQuiz.id
+          })
+          setQuizQuestions(theseQuestions)
+        },
+        (err) => console.error(err)
+      )
+      .catch((error) => console.error(error))
+  }
 
-//gets all cards for current deck 
+  //gets all cards for current deck 
   const gatherCards = () => {
     axios
       .get('https://flashcard6.azurewebsites.net/api/Cards')
@@ -139,6 +139,7 @@ const gatherQuestions = () => {
       )
       .catch((error) => console.error(error))
   }
+  
   //grabs all decks or quizzes that are public
   const filterPublicDecks = (data, type) => {
     const theseResults = data.filter((item) => {
@@ -211,7 +212,6 @@ const gatherQuestions = () => {
       })
   }
 
-
   useEffect(() => {
     findUsersDecks()
     findUsersQuizzes()
@@ -248,7 +248,7 @@ const gatherQuestions = () => {
                 publicDecks={publicDecks}
                 publicQuizzes={publicQuizzes}
                 currentDbId={currentDbId}
-                />
+              />
             </RequireAuth>
           } />
           <Route path="/deckbuilder" element={
@@ -289,10 +289,9 @@ const gatherQuestions = () => {
               handleSignOut={handleSignOut} />
           } />
           <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards} deleteSomething={deleteSomething} />} />
+          <Route path="/editquiz" element={<EditQuiz findUsersQuizzes={findUsersQuizzes} currentQuiz={currentQuiz} quizQuestions={deckQuestions} deleteSomething={deleteSomething} />} />
         </Routes>
       </main>
-
-
     </>
 
   )

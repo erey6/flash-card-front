@@ -21,9 +21,13 @@ const Home = (props) => {
     }
 
     const handleEditClick = (chosen) => {
-        console.log(chosen)
+        if (type === "flash") {
         setCurrentDeck(chosen)
         navigate("/editdeck")
+        } else {
+            setCurrentQuiz(chosen)
+            navigate("/editquiz")
+        }
 
     }
 
