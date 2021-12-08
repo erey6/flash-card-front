@@ -50,8 +50,8 @@ const EditQuiz = (props) => {
         for (const item of e.target) {
             newOptions.push(item.value)
         }
-        newOptions.pop()
-        newOptions.splice(0, 3)
+        newOptions.splice(newOptions.length-2,2)
+        newOptions.splice(0, 4)
         setChangingQuestion({ "id": e.target[1].value, "query": e.target[0].value, "options": newOptions, "quizId": e.target[2].value, "quiz": null })
     }
 
