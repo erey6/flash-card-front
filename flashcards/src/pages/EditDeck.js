@@ -44,6 +44,10 @@ const EditDeck = (props) => {
         setChangingCard(card)
     }
 
+    const handleAddCardClick = () => {
+        navigate("/cardbuilder")
+    }
+
     // once a card is selected, will go to new form by toggling targetCard boolean
     useEffect( () => {
         const cardToggle = () => {
@@ -81,7 +85,7 @@ const EditDeck = (props) => {
             {targetCard ?
             <EditCard editCard={props.editCard} changingCard={changingCard} setTargetCard={setTargetCard}/>
             :<>
-            <h1 className="mt-9">Edit Cards</h1>
+            <div className="w-full items-baseline flex mt-6 justify-between"><h1 className="mt-9">Edit Cards</h1> <button type="button" onClick={handleAddCardClick}>Add more cards</button></div>
             {updateCards.map((card, index) => {
                 return (
                     <div key={index} className="p-4 my-6 bg-gray-300 rounded-sm border-2 border-gray-300">
