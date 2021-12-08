@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react/cjs/react.development';
 
 const Question = (props) => {
-    const { currentQuiz, quizQuestions, currentUser } = props
+    const { currentQuiz, quizQuestions } = props
     const [queryIndex, setQueryIndex] = useState(0)
     // const [correct, setCorrect] = useState(quizQuestions[queryIndex].options[0])
     const [answerOptions, setAnswerOptions] = useState(['a','b','c'])
@@ -59,7 +59,7 @@ const Question = (props) => {
     useEffect(() => {
         setAnswerOptions(quizQuestions[queryIndex].options)
         
-    }, [queryIndex])
+    }, [quizQuestions, queryIndex])
 
     return (
         <>

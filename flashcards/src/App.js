@@ -16,6 +16,7 @@ import EditDeck from './pages/EditDeck';
 import AddQuiz from './pages/AddQuiz';
 import AddQuestion from './pages/AddQuestion';
 import Question from './pages/Question';
+import EditQuiz from './pages/EditQuiz';
 
 const App = () => {
   const emptyDeck = [{
@@ -139,7 +140,7 @@ const App = () => {
       )
       .catch((error) => console.error(error))
   }
-  
+
   //grabs all decks or quizzes that are public
   const filterPublicDecks = (data, type) => {
     const theseResults = data.filter((item) => {
@@ -289,7 +290,7 @@ const App = () => {
               handleSignOut={handleSignOut} />
           } />
           <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards} deleteSomething={deleteSomething} />} />
-          <Route path="/editquiz" element={<EditQuiz findUsersQuizzes={findUsersQuizzes} currentQuiz={currentQuiz} quizQuestions={deckQuestions} deleteSomething={deleteSomething} />} />
+          <Route path="/editquiz" element={<EditQuiz findUsersQuizzes={findUsersQuizzes} currentQuiz={currentQuiz} quizQuestions={quizQuestions} deleteSomething={deleteSomething} />} />
         </Routes>
       </main>
     </>

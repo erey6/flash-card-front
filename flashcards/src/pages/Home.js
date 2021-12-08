@@ -20,7 +20,7 @@ const Home = (props) => {
         }
     }
 
-    const handleEditClick = (chosen) => {
+    const handleEditClick = (chosen, type) => {
         if (type === "flash") {
         setCurrentDeck(chosen)
         navigate("/editdeck")
