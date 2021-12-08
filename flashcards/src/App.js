@@ -88,6 +88,10 @@ const App = () => {
         findUsersDecks()
         if (address === "Cards") {
           gatherCards()
+        } else if (address === "Questions"){
+          gatherQuestions()
+        } else if (address==="Quizzes") {
+          findUsersQuizzes()
         }
       })
   }
@@ -174,7 +178,6 @@ const App = () => {
           const dbData = response.data
           filterUsersDecks(dbData, "decks")
           filterPublicDecks(dbData, "decks")
-
         },
         (err) => console.error(err)
       )

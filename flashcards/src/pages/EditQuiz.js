@@ -11,8 +11,8 @@ const EditQuiz = (props) => {
             "",
             ""
         ],
-        "quizId": null,
-        "quiz": null
+        "quizId": '',
+        "quiz": ''
     }
     const [updatedQuiz, setUpdatedQuiz] = useState(props.currentQuiz)
     const [checkbox, setCheckbox] = useState(!props.currentQuiz.private)
@@ -65,6 +65,16 @@ const EditQuiz = (props) => {
         }
     }
 
+    const handleQuestionDelete = (e) => {
+        props.deleteSomething(e.target.value, "Questions");
+        navigate("/editquiz");
+    } 
+
+    const handleQuizDelete = (e) => {
+        props.deleteSomething(e.target.value, "Quizzes");
+        navigate("/home");
+    } 
+
     useEffect(() => {
         setUpdatedQQ(props.quizQuestions)
     }, [props.quizQuestions])
@@ -87,6 +97,7 @@ const EditQuiz = (props) => {
                     <label htmlFor="private" className="ml-2">Share with public</label>
                 </div>
                 <button className="h-8" type="submit">Submit Name/Description Changes</button>
+                <button className="h-8 bg-red-800" value={updatedQuiz.id} onClick={handleQuizDelete}type="button">Delete quiz</button>
             </form>
 
 
@@ -101,17 +112,12 @@ const EditQuiz = (props) => {
                             <input type="hidden" value={question.quizId} />
                             <label>Options</label>
                             {question.options.map((anOption, index) => (<input name={index} className="w-full" key={index} defaultValue={anOption} />))}
-
-                            <button className="h-8" type="submit">Submit changes to this question</button>
+                            <button className="h-8" type="submit">Submit changes to this question</button> <button className="h-8 bg-red-800" value={question.id} onClick={handleQuestionDelete}type="button">Delete question</button>
                         </form>
                     </div>
 
                 )
             })}
-
-
-
-
         </>
     )
 }
