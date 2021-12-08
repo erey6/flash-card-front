@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { assertFunctionDeclaration } from '@babel/types'
 
 const EditQuiz = (props) => {
     const emptyQuestion = {
@@ -18,25 +17,23 @@ const EditQuiz = (props) => {
     const [updatedQuiz, setUpdatedQuiz] = useState(props.currentQuiz)
     const [checkbox, setCheckbox] = useState(!props.currentQuiz.private)
     const [updatedQQ, setUpdatedQQ] = useState([emptyQuestion])
-    const [quizOptions, setQuizOptions] = useState(["a", "b"])
-    const [changingQuestion, setChangingQuestion] = useState()
-    // const [changingIndex, setChangingIndex] = useState()
+    const [changingQuestion, setChangingQuestion] = useState({id:0})
 
     const navigate = useNavigate()
     const handleChange = (event) => {
         setUpdatedQuiz({ ...updatedQuiz, [event.target.name]: event.target.value })
     }
-    const handleQuestionChange = (e) => {
-        setChangingQuestion(e.target.value)
-    }
 
+    //form info arrives as array. "Query" is first item in array. rest are the "options"
     const handleQuestionSubmit = (e) => {
         e.preventDefault()
-        console.log(e.target[0].value);
-        for (const iterator of e.target) {
-            console.log(iterator.value)
+        const newOptions = []
+        for (const item of e.target) {
+            newOptions.push(item.value)
         }
-
+        newOptions.pop()
+        newOptions.splice(0, 3)
+        setChangingQuestion({"id": e.target[1].value, "query": e.target[0].value, "options": newOptions, "quizId": e.target[2].value, "quiz": null })
     }
 
     const handleCheck = () => {
@@ -56,12 +53,25 @@ const EditQuiz = (props) => {
             })
     }
 
+    const postChange = () => {
+        if (changingQuestion.id) {
+        axios
+            .put(`https://flashcard6.azurewebsites.net/api/Questions/${changingQuestion.id}`,
+                changingQuestion)
+            .then((response) => {
+                props.findUsersQuizzes(response.data)
+                //some kind of response?
+            })
+        }
+    }
+
     useEffect(() => {
         setUpdatedQQ(props.quizQuestions)
     }, [props.quizQuestions])
-    // useEffect(() => {
-    //     setUpdatedQQ(props.quizQuestions)
-    // }, [])
+    
+    useEffect(() => {
+        postChange()
+    }, [changingQuestion])
 
     return (
         <>
@@ -86,7 +96,9 @@ const EditQuiz = (props) => {
                     <div key={question.id} className="p-4 my-6 w-2/3 bg-gray-300 rounded-sm border-2 border-gray-300">
                         <form onSubmit={handleQuestionSubmit}>
                             <label htmlFor="query">Question</label>
-                            <input className="w-full shadow resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" type="text" name={`${index}`} defaultValue={question.query} onChange={handleQuestionChange} autoComplete="off" />
+                            <input className="w-full shadow resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" type="text" name={`${index}`} defaultValue={question.query} autoComplete="off" />
+                            <input type="hidden" value={question.id} />
+                            <input type="hidden" value={question.quizId} />
                             <label>Options</label>
                             {question.options.map((anOption, index) => (<input name={index} className="w-full" key={index} defaultValue={anOption} />))}
 
