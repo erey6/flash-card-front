@@ -42,6 +42,7 @@ const PublicSpace = (props) => {
             </Link>
                 
                 <h1 className="my-6">Public decks and quizzes</h1>
+                <h4 className="mt-9 text-green-900">Flashcard decks</h4>
                 <div className="mb-6 flex flex-wrap gap-x-4">
                     {publicDecks.map((deck) => {
                         return (
@@ -56,6 +57,7 @@ const PublicSpace = (props) => {
                     }
                     )}
                 </div>
+                <h4 className="mt-6 text-blue-900">Quizzes</h4>
                 <div className="mb-6 flex flex-wrap gap-x-4">
                     {publicQuizzes.map((quiz) => {
                         return (

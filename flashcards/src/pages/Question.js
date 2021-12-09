@@ -45,6 +45,9 @@ const Question = (props) => {
     }
 
     const restartQuiz = () => {
+        setQueryIndex(0)
+        setScore(0)
+        setOnQuestion(0)
         navigate("/question")
     }
 
