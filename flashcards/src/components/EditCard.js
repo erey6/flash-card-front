@@ -27,10 +27,10 @@ const EditCard = (props) => {
             <div className="p-4 my-6 bg-gray-300 rounded-sm border-2 border-gray-300">             
                 <div className="my-3">
                     <h3>Front</h3>
-                    <input className="shadow bg-gray-100  resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" name="front" value={newCard.front} onChange={handleOnChange}/>
+                    <input className="w-full shadow bg-gray-100  resize-vertical border block rounded py-1 px-3 my-2" name="front" value={newCard.front} onChange={handleOnChange}/>
                        
                     <h3>Back: </h3>
-                    <input className="shadow bg-gray-100 resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" name="back" value={newCard.back} onChange={handleOnChange}/>
+                    <input className="w-full shadow bg-gray-100 resize-vertical border block rounded py-1 px-3 my-2" name="back" value={newCard.back} onChange={handleOnChange}/>
                 </div>
                 <button type="submit" className="h-6 rounded-md px-4 bg-green-600 text-gray-100 mt-1 mr-3" onClick={handleSubmit}
                             >Submit Card Edits</button>

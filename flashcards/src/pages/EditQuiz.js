@@ -103,12 +103,12 @@ const EditQuiz = (props) => {
        const id = e.currentTarget.value
         dispatch({type: "add", updatedQQ, id})
     }
-    const handleDeleteOptions = (e) => {
-        const value = e.currentTarget.value
-        const id = value.split('+')[0]
-        const index = value.split('+')[1]
-        dispatch({type: "subtract", updatedQQ, id, index})
-     }
+    // const handleDeleteOptions = (e) => {
+    //     const value = e.currentTarget.value
+    //     const id = value.split('+')[0]
+    //     const index = value.split('+')[1]
+    //     dispatch({type: "subtract", updatedQQ, id, index})
+    //  }
 
     useEffect(() => {
         setUpdatedQQ(props.quizQuestions)

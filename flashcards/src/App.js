@@ -1,7 +1,7 @@
 import './App.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Navigate, useLocation, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { SignInWithGoogle, SignOutUser } from './Firebase/firebase';
 import Header from './components/Header.js';
 import Welcome from './pages/Welcome';
@@ -20,6 +20,7 @@ import EditQuiz from './pages/EditQuiz';
 import PublicSpace from './pages/PublicSpace'
 
 const App = () => {
+
   const emptyDeck = [{
     "id": 0,
     "front": "a",
@@ -236,6 +237,7 @@ const App = () => {
 
   return (
     <>
+     
       <Header loggedIn={loggedIn} handleLogin={handleLogin} handleSignOut={handleSignOut} />
       <main>
         <Routes>

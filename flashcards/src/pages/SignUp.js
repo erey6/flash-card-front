@@ -27,7 +27,7 @@ const SignUp = (props) => {
     return (
         <>
             <h1>Sign up for Flashcards!</h1>
-            <h3>Create a login with email and password, or simply use your <a href="#" onClick={props.handleLogin}>Google account to login. </a></h3>
+            <h3>Create a login with email and password, or simply use your <button className="h-9 hover:bg-red-900 bg-red-600 ml-1" onClick={props.handleLogin}>Google </button>a account to login. </h3>
             <form onSubmit={handleSubmit}>
             <label htmlFor="name">Email: </label>
             <input type="text" name="email" onChange={handleChange} value={newUser.email} /><br/>
