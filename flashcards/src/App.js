@@ -25,14 +25,14 @@ const App = () => {
     "id": 0,
     "front": "a",
     "back": "c",
-    "deckId": 8,
+    "deckId": 0,
     "deck": null
   }]
 
   const emptyQuiz = [{
     "id": 0,
     "Query": "q",
-    "Options": [],
+    "Options": ["i", "e"],
     "QuizId": 0,
     "quiz": null
   }]

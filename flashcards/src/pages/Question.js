@@ -37,7 +37,7 @@ const Question = (props) => {
     }
 
     const nextQuestion = () => {
-        setAnswered(!answered)
+        setAnswered(false)
         setAnsweredCorrect(null)
         setQueryIndex(queryIndex+1)
         setChosen(null)
@@ -45,6 +45,7 @@ const Question = (props) => {
     }
 
     const restartQuiz = () => {
+        setAnswered(false)
         setQueryIndex(0)
         setScore(0)
         setOnQuestion(0)
@@ -86,8 +87,7 @@ const Question = (props) => {
                               name="answer"
                               value={i}
                               checked={(chosen == i)}
-                              onChange={handleChange}
-                              
+                              onChange={handleChange}                             
                             /> <label>
                             {answerOptions[i]}
                           </label>
@@ -102,8 +102,6 @@ const Question = (props) => {
                  {(answered && queryIndex === quizQuestions.length-1) && <button type="button" className="bg-green-400 hover:bg-green-600" onClick={restartQuiz}> Restart Quiz</button> }
 
             </div>
-
-
         </>
     )
 }
