@@ -11,7 +11,7 @@ The app was inspired by my use of flashcards to learn Javascript array methods f
 - Front end was bootstrapped with Create React App.
 - User authentication is implemented with Firebase. A user can log in with their Google account or create an email account.
 - Backend database uses Postresql.
-- RESTful routes to the database are achieved with ASP.NET and the Entitny Core Framework.
+- RESTful routes to the database are achieved with ASP.NET and the Entity Core Framework.
 - Styling for the front end was created with Tailwind and Google fonts.
 - The front end and the back end ASP.NET API is hosted on Microsoft Azure. The database is in Google Cloud.
 
