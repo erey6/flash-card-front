@@ -8,7 +8,6 @@ function reducer(state, action) {
             const foundQuestion = action.updatedQQ.find((question) => question.id == action.id)
             const foundIndex = action.updatedQQ.indexOf(foundQuestion)
             foundQuestion.options.push('')
-            console.log(foundQuestion)
             action.updatedQQ.splice(foundIndex, 1, foundQuestion)
             return action.updatedQQ
         case "subtract":
@@ -36,7 +35,7 @@ const EditQuiz = (props) => {
     const [checkbox, setCheckbox] = useState(!props.currentQuiz.private)
     const [updatedQQ, setUpdatedQQ] = useState([emptyQuestion])
     const [changingQuestion, setChangingQuestion] = useState({ id: 0 })
-    const [allQuestions, dispatch] = useReducer(reducer, [{}])
+    const [allQuestions, dispatch] = useReducer(reducer, props.quizQuestions)
 
     const navigate = useNavigate()
     const handleChange = (event) => {
@@ -80,9 +79,11 @@ const EditQuiz = (props) => {
                 .then((response) => {
                     props.findUsersQuizzes(response.data)
                     //some kind of response?
+                    console.log('udpated')
                 })
         }
     }
+
 
     const handleQuestionDelete = (e) => {
         props.deleteSomething(e.target.value, "Questions");
@@ -102,6 +103,12 @@ const EditQuiz = (props) => {
        const id = e.currentTarget.value
         dispatch({type: "add", updatedQQ, id})
     }
+    const handleDeleteOptions = (e) => {
+        const value = e.currentTarget.value
+        const id = value.split('+')[0]
+        const index = value.split('+')[1]
+        dispatch({type: "subtract", updatedQQ, id, index})
+     }
 
     useEffect(() => {
         setUpdatedQQ(props.quizQuestions)
@@ -140,7 +147,15 @@ const EditQuiz = (props) => {
                             <input type="hidden" value={question.id} />
                             <input type="hidden" value={question.quizId} />
                             <div className="flex justify-between"><label>Options</label><button type="button" value={question.id} onClick={handleAddOptions}>Add option +</button></div>
-                            {question.options.map((anOption, index) => (<input name={index} className="w-full" key={index} defaultValue={anOption} />))}
+                            {question.options.map((anOption, index) => (
+                                <>
+                                <div className="flex items-center justify-between">
+                            <input name={index} className="w-full inline mr-2" key={index} defaultValue={anOption} />
+                            {/* <button type="button" className="w-1/12" value={`${question.id}+${index}`} onClick={handleDeleteOptions}>&#8212;</button> */}
+                            </div>
+                            </>
+                            ))}
+                            
                             <button className="h-8" type="submit">Submit changes to this question</button> <button className="h-8 bg-red-800" value={question.id} onClick={handleQuestionDelete} type="button">Delete question</button>
                         </form>
                     </div>

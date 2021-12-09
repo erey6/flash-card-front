@@ -293,7 +293,7 @@ const App = () => {
               handleSignOut={handleSignOut} />
           } />
           <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards} deleteSomething={deleteSomething} />} />
-          <Route path="/editquiz" element={<EditQuiz findUsersQuizzes={findUsersQuizzes} currentQuiz={currentQuiz} quizQuestions={quizQuestions} deleteSomething={deleteSomething} />} />
+          <Route path="/editquiz" element={<EditQuiz findUsersQuizzes={findUsersQuizzes} currentQuiz={currentQuiz} gatherQuestions={gatherQuestions} quizQuestions={quizQuestions} deleteSomething={deleteSomething} />} />
         </Routes>
       </main>
     </>

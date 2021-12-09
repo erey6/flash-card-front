@@ -58,7 +58,10 @@ const AddQuestion = (props) => {
                     <button type="button" className="block" onClick={pushToOptions}>Add more answer options</button>
                     {optionsArray.map(num=>{return(
                     <div key={num} className="w-auto my-3">
-                        <label className="block" htmlFor="option">Option</label>
+                        <label className="block" htmlFor="option">
+                            {num===0 ? 'Correct Answer Goes First' :
+                            'Option'}               
+                        </label>
                         <textarea id={num} className="w-4/6 shadow resize-vertical border block rounded py-1 px-3 text-gray-700 my-2" type="text" name={answers.num} onBlur={handleOptionsChange} autoComplete="off"> </textarea>
                     </div>
                 
