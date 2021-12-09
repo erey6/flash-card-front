@@ -125,7 +125,6 @@ const Home = (props) => {
                     )}
                 </div>
             </section>
-            <Link to="/addquestion">remove later go to add q </Link>
         </>
     )
 }

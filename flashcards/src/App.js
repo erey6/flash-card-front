@@ -17,6 +17,7 @@ import AddQuiz from './pages/AddQuiz';
 import AddQuestion from './pages/AddQuestion';
 import Question from './pages/Question';
 import EditQuiz from './pages/EditQuiz';
+import PublicSpace from './pages/PublicSpace'
 
 const App = () => {
   const emptyDeck = [{
@@ -88,9 +89,9 @@ const App = () => {
         findUsersDecks()
         if (address === "Cards") {
           gatherCards()
-        } else if (address === "Questions"){
+        } else if (address === "Questions") {
           gatherQuestions()
-        } else if (address==="Quizzes") {
+        } else if (address === "Quizzes") {
           findUsersQuizzes()
         }
       })
@@ -240,7 +241,14 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Welcome loggedIn={loggedIn} handleLogin={handleLogin} />} />
           <Route path="/signup" element={<SignUp loggedIn={loggedIn} handleLogin={handleLogin} />} />
-
+          <Route path="/card" element={<Card currentDeck={currentDeck} deckCards={deckCards} currentUser={currentUser} />} />
+          <Route path="/question" element={<Question currentQuiz={currentQuiz} quizQuestions={quizQuestions} currentUser={currentUser} />} />
+          <Route path="/publicspace" element={<PublicSpace loggedIn={loggedIn} usersDecks={usersDecks}
+                usersQuizzes={usersQuizzes}
+                setCurrentDeck={setCurrentDeck}
+                setCurrentQuiz={setCurrentQuiz}
+                publicDecks={publicDecks}
+                publicQuizzes={publicQuizzes} />} />
           <Route path='/home' element={
             <RequireAuth>
               <Home
@@ -260,16 +268,7 @@ const App = () => {
               <DeckBuilder setCurrentDeck={setCurrentDeck} currentUser={currentUser} currentDbId={currentDbId} />
             </RequireAuth>
           } />
-          <Route path="/card" element={
-            <RequireAuth>
-              <Card currentDeck={currentDeck} deckCards={deckCards} currentUser={currentUser} />
-            </RequireAuth>
-          } />
-          <Route path="/question" element={
-            <RequireAuth>
-              <Question currentQuiz={currentQuiz} quizQuestions={quizQuestions} currentUser={currentUser} />
-            </RequireAuth>
-          } />
+
           <Route path="/cardbuilder" element={
             <RequireAuth>
               <CardBuilder setCurrentDeck={setCurrentDeck} findUsersDecks={findUsersDecks} currentDeck={currentDeck} currentUser={currentUser} currentDbId={currentDbId} />

@@ -5,10 +5,10 @@ const Header = (props) => {
 
 
     return (
-        <nav className="mt-4 flex justify-left h-16 ">
+        <nav className="mt-4  justify-between items-baseline text-green-800 flex justify-left h-16 ">
             <h1 className="mt-1"> Quizzr</h1>
-            <Link to={"/home"} className='pl-6 mt-2'>Home</Link>
-            <Link to={"/home"} className='pl-6 mt-2'>Profile</Link>
+           <div> <Link to={"/home"} className='pl-6 mt-2'>Home</Link></div>
+            
 
             
 

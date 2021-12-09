@@ -128,7 +128,7 @@ const EditQuiz = (props) => {
                 <label className="block" htmlFor="description">Description: </label>
                 <textarea className="shadow resize-vertical border block rounded py-1 px-3 text-gray-700 my-2 w-2/3" type="text" name="description" value={updatedQuiz.description} onChange={handleChange} autoComplete="off"> </textarea>
                 <div className="block my-3" >
-                    <input className="inline" type="checkbox" id="private" name="private" value="private" onChange={handleCheck} />
+                    <input className="inline" type="checkbox" id="private" name="private" value="private" onChange={handleCheck} checked={checkbox}/>
                     <label htmlFor="private" className="ml-2">Share with public</label>
                 </div>
                 <button className="h-8" type="submit">Submit Name/Description Changes</button>
