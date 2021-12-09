@@ -1,8 +1,7 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Header = (props) => {
 
-    const  location = useLocation ()
     return (
         <nav className="mt-4  justify-between items-baseline text-green-800 flex justify-left h-16 ">
             <h1 className="mt-1">BIGGERBRAIN</h1>

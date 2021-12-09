@@ -4,6 +4,19 @@ import React, { useState, useEffect } from 'react'
 const Card = (props) => {
     const [showFront, setShowFront] = useState(false)
     const [cardIndex, setCardIndex] = useState(0)
+    const [theseCards, setTheseCards] = useState([{
+        "id": 0,
+        "front": "i",
+        "back": "i",
+        "deckId": 0,
+        "deck": null
+    }, {
+        "id": 1,
+        "front": "i",
+        "back": "i",
+        "deckId": 0,
+        "deck": null
+    }])
 
     const handleFlip = () => {
         setShowFront(!showFront)
@@ -24,6 +37,10 @@ const Card = (props) => {
         setShowFront(true)
     }
     useEffect(() => {
+        setTheseCards(props.deckCards)
+    }, [props.deckCards])
+    
+    useEffect(() => {
         setShowFront(true)
     }, [])
 
@@ -36,8 +53,8 @@ const Card = (props) => {
 
                 <h2>
                     {showFront ?
-                        <>{props.deckCards[cardIndex].front}</> :
-                        <>{props.deckCards[cardIndex].back}</>
+                        <>{theseCards[cardIndex].front}</> :
+                        <>{theseCards[cardIndex].back}</>
                     }
                 </h2>
 
@@ -46,7 +63,7 @@ const Card = (props) => {
                 <button onClick={previousCard}>Previous</button>
             }
             <button className="bg-blue-600 hover:bg-blue-900" onClick={handleFlip}>Flip</button>
-            {cardIndex < props.deckCards.length - 1 ?
+            {cardIndex < theseCards.length - 1 ?
                 <button onClick={nextCard}>Next</button> :
                 <button onClick={restart}>Restart</button>
             }

@@ -1,10 +1,10 @@
 import { useNavigate, Link } from 'react-router-dom'
-
+import { useEffect } from 'react/cjs/react.development'
 
 const PublicSpace = (props) => {
 
-    const {setCurrentDeck, setCurrentQuiz, publicDecks,
-        publicQuizzes} = props
+    const {setCurrentDeck, currentDeck, currentQuiz, setCurrentQuiz, publicDecks,
+        publicQuizzes, gatherCards, gatherQuestions} = props
 
     const navigate = useNavigate()
 
@@ -20,11 +20,12 @@ const PublicSpace = (props) => {
     }
 
 
-    // useEffect(
-    //     () => {
-    //         setCurrentDeck(usersDecks[0])
-    //     }, [usersDecks, setCurrentDeck]
-    // )
+    useEffect(
+        () => {
+            gatherCards()
+            gatherQuestions()
+        }, []
+    )
 
     // useEffect(
     //     () => {

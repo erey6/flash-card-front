@@ -39,12 +39,12 @@ const App = () => {
   const [loggedIn, setLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState({ "uid": 0 })
   const [currentDbId, setCurrentDbId] = useState()
-  const [currentDeck, setCurrentDeck] = useState({ id: 0 })
-  const [currentQuiz, setCurrentQuiz] = useState({ id: 0 })
+  const [currentDeck, setCurrentDeck] = useState({ id: 17 })
+  const [currentQuiz, setCurrentQuiz] = useState({ id: 3 })
   const [usersDecks, setUsersDecks] = useState([])
   const [usersQuizzes, setUsersQuizzes] = useState([])
-  const [publicDecks, setPublicDecks] = useState([])
-  const [publicQuizzes, setPublicQuizzes] = useState([])
+  const [publicDecks, setPublicDecks] = useState(emptyDeck)
+  const [publicQuizzes, setPublicQuizzes] = useState(emptyQuiz)
   const [deckCards, setDeckCards] = useState(emptyDeck)
   const [quizQuestions, setQuizQuestions] = useState(emptyQuiz)
   const navigate = useNavigate()
@@ -52,13 +52,10 @@ const App = () => {
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
-    if (user === currentUser) {
-    } else if (user) {
+    if (user) {
       setCurrentUser(user)
       getDbId(user.uid)
       setLogin(true)
-    } else {
-      setLogin(false)
     }
   });
 
@@ -161,14 +158,20 @@ const App = () => {
 
   //function that loooks for decks or quizzes with userid
   const filterUsersDecks = (data, type) => {
+
     const theseResults = data.filter((deck) => {
-      return deck.userId === currentDbId
+      if (loggedIn === true) {
+        return deck.userId === currentDbId
+      } else {
+        return deck
+      }
     })
     if (type === "decks") {
       setUsersDecks(theseResults)
     } else {
       setUsersQuizzes(theseResults)
     }
+
   }
 
   //function request to API for all decks and then calls on function above for decks belonging to user 
@@ -237,20 +240,25 @@ const App = () => {
 
   return (
     <>
-     
+
       <Header loggedIn={loggedIn} handleLogin={handleLogin} handleSignOut={handleSignOut} />
       <main>
         <Routes>
+          <Route path="/card" element={<Card currentDeck={currentDeck} deckCards={deckCards} />} />
+          <Route path="/question" element={<Question currentQuiz={currentQuiz} quizQuestions={quizQuestions} />} />
           <Route path="/" element={<Welcome loggedIn={loggedIn} handleLogin={handleLogin} />} />
           <Route path="/signup" element={<SignUp loggedIn={loggedIn} handleLogin={handleLogin} />} />
-          <Route path="/card" element={<Card currentDeck={currentDeck} deckCards={deckCards} currentUser={currentUser} />} />
-          <Route path="/question" element={<Question currentQuiz={currentQuiz} quizQuestions={quizQuestions} currentUser={currentUser} />} />
+
           <Route path="/publicspace" element={<PublicSpace loggedIn={loggedIn} usersDecks={usersDecks}
-                usersQuizzes={usersQuizzes}
-                setCurrentDeck={setCurrentDeck}
-                setCurrentQuiz={setCurrentQuiz}
-                publicDecks={publicDecks}
-                publicQuizzes={publicQuizzes} />} />
+            usersQuizzes={usersQuizzes}
+            setCurrentDeck={setCurrentDeck}
+            setCurrentQuiz={setCurrentQuiz}
+            gatherCards={gatherCards}
+            gatherQuestions={gatherQuestions}
+            publicDecks={publicDecks}
+            currentDeck={currentDeck}
+            currentQuiz={currentQuiz}
+            publicQuizzes={publicQuizzes} />} />
           <Route path='/home' element={
             <RequireAuth>
               <Home
@@ -294,7 +302,13 @@ const App = () => {
               handleSignOut={handleSignOut} />
           } />
           <Route path="/editdeck" element={<EditDeck editCard={editCard} findUsersDecks={findUsersDecks} currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} deckCards={deckCards} deleteSomething={deleteSomething} />} />
-          <Route path="/editquiz" element={<EditQuiz findUsersQuizzes={findUsersQuizzes} currentQuiz={currentQuiz} gatherQuestions={gatherQuestions} quizQuestions={quizQuestions} deleteSomething={deleteSomething} />} />
+          <Route path="/editquiz" element={
+            <EditQuiz findUsersQuizzes={findUsersQuizzes}
+              currentQuiz={currentQuiz}
+              gatherQuestions={gatherQuestions}
+              quizQuestions={quizQuestions}
+              deleteSomething={deleteSomething} />} />
+
         </Routes>
       </main>
     </>
