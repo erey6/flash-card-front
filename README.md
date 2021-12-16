@@ -13,7 +13,8 @@ The app was inspired by my use of flashcards to learn Javascript array methods f
 - Backend database uses PostreSQL.
 - RESTful routes to the database are achieved with ASP.NET and the Entity Core Framework.
 - Styling for the front end was created with Tailwind and Google fonts.
-- The front end and the back end ASP.NET API is hosted on Microsoft Azure. The database is hosted on a Google Cloud e2 instance running Ubuntu.
+- The front end and the back end ASP.NET API are hosted on Microsoft Azure. 
+- The database is hosted on a Google Cloud e2 instance running Ubuntu.
 
 ## How to use the app
 - No login needed to try a quiz or a flashcard deck
