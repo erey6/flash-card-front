@@ -5,7 +5,7 @@ const Home = (props) => {
 
     const {currentUser, usersDecks, usersQuizzes,
         setCurrentDeck, setCurrentQuiz, publicDecks,
-        publicQuizzes, currentDbId} = props
+        publicQuizzes, currentDbId, loggedIn} = props
 
     const navigate = useNavigate()
 
@@ -42,8 +42,13 @@ const Home = (props) => {
             setCurrentQuiz(usersQuizzes[0])
         }, [usersQuizzes, setCurrentQuiz]
     )
-
-
+    useEffect(
+        () => {
+            if(loggedIn===false) {
+                navigate("/")
+            }
+        }, [loggedIn]
+    )
 
     return (
         <>

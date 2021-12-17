@@ -3,9 +3,6 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, createUserWithEm
 import axios from 'axios'
 
 
-
-
-
 // Web app's Firebase configuration
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -127,7 +124,7 @@ const SignInWithEP = (email, password) => {
 
 const SignOutUser = () => {
     signOut(auth).then(() => {
-        console.log('sign out success');
+        // console.log('sign out success');
         // Sign-out successful.
     }).catch((error) => {
         console.log(error);

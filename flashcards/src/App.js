@@ -39,8 +39,8 @@ const App = () => {
   const [loggedIn, setLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState({ "uid": 0 })
   const [currentDbId, setCurrentDbId] = useState()
-  const [currentDeck, setCurrentDeck] = useState({ id: 17 })
-  const [currentQuiz, setCurrentQuiz] = useState({ id: 3 })
+  const [currentDeck, setCurrentDeck] = useState({ id: 4 })
+  const [currentQuiz, setCurrentQuiz] = useState({ id: 1 })
   const [usersDecks, setUsersDecks] = useState([])
   const [usersQuizzes, setUsersQuizzes] = useState([])
   const [publicDecks, setPublicDecks] = useState(emptyDeck)
@@ -56,13 +56,16 @@ const App = () => {
       setCurrentUser(user)
       getDbId(user.uid)
       setLogin(true)
+    } else {
+      setLogin(false)
     }
   });
 
   const handleSignOut = () => {
     SignOutUser()
     setLogin(false)
-    navigate("/")
+    console.log(loggedIn)
+    
   }
 
   const handleLogin = (e) => {
@@ -238,6 +241,7 @@ const App = () => {
     [currentQuiz]
   )
 
+
   return (
     <>
 
@@ -270,6 +274,7 @@ const App = () => {
                 publicDecks={publicDecks}
                 publicQuizzes={publicQuizzes}
                 currentDbId={currentDbId}
+                loggedIn={loggedIn}
               />
             </RequireAuth>
           } />
