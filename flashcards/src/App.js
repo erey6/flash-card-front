@@ -63,9 +63,7 @@ const App = () => {
 
   const handleSignOut = () => {
     SignOutUser()
-    setLogin(false)
-    console.log(loggedIn)
-    
+    setLogin(false)    
   }
 
   const handleLogin = (e) => {
