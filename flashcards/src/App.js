@@ -21,6 +21,7 @@ import PublicSpace from './pages/PublicSpace'
 
 const App = () => {
 
+  //creates emptyDeck for state so map function doesn't error out
   const emptyDeck = [{
     "id": 0,
     "front": "a",
@@ -28,7 +29,8 @@ const App = () => {
     "deckId": 0,
     "deck": null
   }]
-
+  
+  //creates emptyQuiz for state so map function doesn't error out
   const emptyQuiz = [{
     "id": 0,
     "Query": "q",
@@ -50,8 +52,9 @@ const App = () => {
   const navigate = useNavigate()
 
   const auth = getAuth();
-
+  ////////////////////////////////////////////////////////
   //when user logs in, sets user, gets their database id
+  ///////////////////////////////////////////////////////
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setCurrentUser(user)
@@ -223,7 +226,9 @@ const App = () => {
     let editedDeck = usersDecks.find((deck) => deck.id === currentDeck.id)
     setCurrentDeck(editedDeck)
   }
+  ////////////////////////////////////////////////////////////////
   //function from editcard puts new card, then resets currentdeck
+  ////////////////////////////////////////////////////////////////
   const editCard = (card) => {
     axios
       .put(`https://flashcard6.azurewebsites.net/api/Cards/${card.id}`,
