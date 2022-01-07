@@ -51,6 +51,7 @@ const App = () => {
 
   const auth = getAuth();
 
+  //when user logs in, sets user, gets their database id
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setCurrentUser(user)
@@ -61,17 +62,26 @@ const App = () => {
     }
   });
 
+  ////////////////////////////////////////////////////////////////////////
+  ////when someone clicks logoff, calls firebase function 'SignOutUser()'
+  ///////////////////////////////////////////////////////////////////////
   const handleSignOut = () => {
     SignOutUser()
     setLogin(false)    
   }
-
+  /////////////////////////////////////////
+  //handler when someone logs in via GOOGLE
+  /////////////////////////////////////////
   const handleLogin = (e) => {
     e.preventDefault()
     SignInWithGoogle()
     navigate("/home")
   }
 
+
+  //////////////////////////////////////////
+  //blocks off routes to nonlogged in users
+  //////////////////////////////////////////  
   const RequireAuth = ({ children }: { children: JSX.Element }) => {
     let location = useLocation();
     if (!loggedIn) {
@@ -110,7 +120,7 @@ const App = () => {
       )
       .catch((error) => console.error(error))
   }
-
+  
   //gets all questions for current quiz
   const gatherQuestions = () => {
     axios
@@ -144,7 +154,7 @@ const App = () => {
       )
       .catch((error) => console.error(error))
   }
-
+  
   //grabs all decks or quizzes that are public
   const filterPublicDecks = (data, type) => {
     const theseResults = data.filter((item) => {
@@ -206,6 +216,9 @@ const App = () => {
       .catch((error) => console.error(error))
   }
 
+  /////////////////////////////////////////////////////////////////////////
+  //after flash card is edited, gets flashcard deck again with edits added
+  /////////////////////////////////////////////////////////////////////////
   const getUpdatedDeck = () => {
     let editedDeck = usersDecks.find((deck) => deck.id === currentDeck.id)
     setCurrentDeck(editedDeck)
