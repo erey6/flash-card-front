@@ -22,21 +22,25 @@ import PublicSpace from './pages/PublicSpace'
 const App = () => {
 
   //creates emptyDeck for state so map function doesn't error out
-  const emptyDeck = [{
+  const emptyDeck = [  {
     "id": 0,
-    "front": "Loading...",
-    "back": "Loading...",
-    "deckId": 0,
-    "deck": null
-  }]
+    "name": "Loading",
+    "description": "",
+    "private": false,
+    "cards": null,
+    "userId": 1,
+    "user": null
+}]
   
   //creates emptyQuiz for state so map function doesn't error out
   const emptyQuiz = [{
     "id": 0,
-    "Query": "Loading...",
-    "Options": ["i", "e"],
-    "QuizId": 0,
-    "quiz": null
+    "name": "Loading",
+    "description": "",
+    "private": false,
+    "questions": null,
+    "userId": 1,
+    "user": null
   }]
   const [loggedIn, setLogin] = useState(false)
   const [currentUser, setCurrentUser] = useState({ "uid": 0 })
