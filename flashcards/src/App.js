@@ -24,8 +24,8 @@ const App = () => {
   //creates emptyDeck for state so map function doesn't error out
   const emptyDeck = [{
     "id": 0,
-    "front": "a",
-    "back": "c",
+    "front": "Loading...",
+    "back": "Loading...",
     "deckId": 0,
     "deck": null
   }]
@@ -33,7 +33,7 @@ const App = () => {
   //creates emptyQuiz for state so map function doesn't error out
   const emptyQuiz = [{
     "id": 0,
-    "Query": "q",
+    "Query": "Loading...",
     "Options": ["i", "e"],
     "QuizId": 0,
     "quiz": null
