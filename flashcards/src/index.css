@@ -32,3 +32,23 @@ body {
   margin: 0 auto;
   max-width: 810px;
 }
+
+.loading {
+	animation-name: changeColor;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes changeColor {
+  0% {
+    color: #00000021;
+  }
+
+  50% {
+    color: #000000;
+  }
+
+  100% {
+    color: #00000021;
+  }
+}

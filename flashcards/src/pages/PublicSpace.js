@@ -45,7 +45,7 @@ const PublicSpace = (props) => {
                 <h1 className="my-6">Public decks and quizzes</h1>
                 <h4 className="mt-9 text-green-900">Flashcard decks</h4>
                 <div className="mb-6 flex flex-wrap gap-x-4">
-                    {publicDecks.name !== ''  ? publicDecks.map((deck) => {
+                    {publicDecks[0].name !== ''  ? publicDecks.map((deck) => {
                         return (
                             <div className="w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={deck.id}>
                                 <h2>{deck.name}</h2>
@@ -56,11 +56,11 @@ const PublicSpace = (props) => {
                             </div>
                         )
                     }
-                    ) : <h2 className="loading">Loading...</h2>}
+                    ) : <h2 className="loading mt-3">Loading...</h2>}
                 </div>
                 <h4 className="mt-6 text-blue-900">Quizzes</h4>
                 <div className="mb-6 flex flex-wrap gap-x-4">
-                    {publicQuizzes.name !== '' ? publicQuizzes.map((quiz) => {
+                    {publicQuizzes[0].name !== '' ? publicQuizzes.map((quiz) => {
                         return (
                             
                             <div className="w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={quiz.id}>
@@ -72,7 +72,7 @@ const PublicSpace = (props) => {
                             </div>
                         )
                     }
-                    ) : <h2 className="loading">Loading...</h2>}
+                    ) : <h2 className="loading mt-3">Loading...</h2>}
                 </div>
             </section>
         </>
