@@ -65,7 +65,7 @@ const Home = (props) => {
                 <div className="mb-6 flex flex-wrap gap-x-4">
                     {usersDecks.map((deck) => {
                         return (
-                            <div className="w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={deck.id}>
+                            <div className="md:w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={deck.id}>
                                 <h2>{deck.name}</h2>
                                 <p>{deck.description}</p>
                                 <button onClick={() => {
@@ -83,7 +83,7 @@ const Home = (props) => {
                 <div className="mb-6 flex flex-wrap gap-x-4">
                     {usersQuizzes.map((quiz) => {
                         return (
-                            <div className="w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={quiz.id}>
+                            <div className="md:w-1/4 my-5 p-4 rounded-sm border-2 border-black-300" key={quiz.id}>
                                 <h2>{quiz.name}</h2>
                                 <p>{quiz.description}</p>
                                 <button onClick={() => {
