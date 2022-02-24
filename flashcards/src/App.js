@@ -9,21 +9,22 @@ import {
   useLocation
 } from 'react-router-dom'
 import { SignInWithGoogle, SignOutUser } from './Firebase/firebase'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import SignUp from './pages/SignUp'
+import LogIn from './pages/LogIn'
 import Header from './components/Header.js'
 import Welcome from './pages/Welcome'
+import PublicSpace from './pages/PublicSpace'
 import Home from './pages/Home'
 import DeckBuilder from './pages/DeckBuilder'
 import Card from './pages/Card'
-import SignUp from './pages/SignUp'
-import LogIn from './pages/LogIn'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import CardBuilder from './pages/CardBuilder'
 import EditDeck from './pages/EditDeck'
 import AddQuiz from './pages/AddQuiz'
 import AddQuestion from './pages/AddQuestion'
 import Question from './pages/Question'
 import EditQuiz from './pages/EditQuiz'
-import PublicSpace from './pages/PublicSpace'
+
 
 const App = () => {
   //creates emptyDeck for state so map function doesn't error out
