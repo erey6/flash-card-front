@@ -3,7 +3,7 @@ import { useEffect } from 'react/cjs/react.development'
 
 const PublicSpace = (props) => {
 
-    const {setCurrentDeck, currentDeck, currentQuiz, setCurrentQuiz, publicDecks,
+    const {setCurrentDeck, setCurrentQuiz, publicDecks,
         publicQuizzes, gatherCards, gatherQuestions} = props
 
     const navigate = useNavigate()
