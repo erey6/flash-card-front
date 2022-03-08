@@ -27,12 +27,6 @@ const PublicSpace = (props) => {
         }, []
     )
 
-    // useEffect(
-    //     () => {
-    //         setCurrentQuiz(usersQuizzes[0])
-    //     }, [usersQuizzes, setCurrentQuiz]
-    // )
-
     return (
         <>
             <section> <Link to={"/login"}>
